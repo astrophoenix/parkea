@@ -11,7 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="amycorp.parkea.RegistrarUsuario"
-    tools:showIn="@layout/activity_registrar_usuario">
+    tools:showIn="@layout/activity_registrar_usuario"
+    android:background="#f5f5dc">
 
     <LinearLayout
         android:orientation="vertical"
@@ -54,7 +55,8 @@
             android:text="Guardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_guardar_usuario" />
+            android:id="@+id/btn_guardar_usuario"
+            android:background="@color/abc_search_url_text_normal" />
 
     </LinearLayout>
 </RelativeLayout>

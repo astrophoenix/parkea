@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,10 +28,19 @@
         <activity
             android:name=".RegistrarUsuario"
             android:label="@string/title_activity_registrar_usuario"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FacultadesActivity" />
-        <activity android:name=".ParqueaderosFacultadActivity" />
-        <activity android:name=".RegistrarParqueoActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".FacultadesActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ParqueaderosFacultadActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RegistrarParqueoActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".InicioActivity"></activity>
     </application>
 
