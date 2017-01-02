@@ -32,15 +32,15 @@ public class FacultadAdaptador extends RecyclerView.Adapter<FacultadAdaptador.Vi
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         private TextView nombre_facultad;
+        private TextView num_parqueos;
 
 
         public ViewHolder(final View itemView)
         {
             super(itemView);
             nombre_facultad = (TextView) itemView.findViewById(R.id.nombre_facultad);
+            num_parqueos = (TextView) itemView.findViewById(R.id.num_parqueos);
         }
-
-
     }
 
     @Override
@@ -54,13 +54,13 @@ public class FacultadAdaptador extends RecyclerView.Adapter<FacultadAdaptador.Vi
     public void onBindViewHolder(FacultadAdaptador.ViewHolder holder, final int position) {
 
         holder.nombre_facultad.setText(list_facultades.get(position).getNombre());
+        holder.num_parqueos.setText(String.valueOf(list_facultades.get(position).getNum_parqueos()) + " Parqueadeos");
         holder.nombre_facultad.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ParqueaderosFacultadActivity.class);
                 intent.putExtra("facultad_id", list_facultades.get(position).getId());
-                Log.i("CustomAdapter", String.valueOf(" id:"+ list_facultades.get(position).getId() ));
                 v.getContext().startActivity(intent);
 
             }

@@ -9,9 +9,9 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    //final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
-    //final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
-    final String BASE_URL = "http://198.199.122.165:8000/backend/";
+    final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
+//    final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
+//    final String BASE_URL = "http://198.199.122.165:8000/backend/";
 
 
     @GET("validar_login/{correo}/{clave}")
@@ -20,10 +20,13 @@ public interface APIService {
     @GET("registrar_usuario/{nombre}/{apellido}/{correo}/{clave}")
     Call<RespuestaAPIServidor> registrarUsuarioAPI(@Path("nombre") String nombre,
                                                    @Path("apellido") String apellido,
+                                                   @Path("placa") String placa,
                                                    @Path("correo") String email,
                                                    @Path("clave") String password );
 
 
+    @GET("obtener_usuario/{usuario_id}/")
+    Call<Usuario> obtenerUsuarioAPI(@Path("usuario_id") Integer usuario_id);
 
 
     @GET("registrar_parqueo_persona/{parqueadero_id}/{placa}")

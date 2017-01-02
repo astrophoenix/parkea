@@ -23,6 +23,7 @@ public class RegistrarUsuario extends AppCompatActivity {
     private EditText txt_apellido;
     private EditText txt_email;
     private EditText txt_password;
+    private EditText txt_placa;
     private Button btn_guardar_usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         txt_apellido = (EditText) findViewById(R.id.txt_apellido);
         txt_email = (EditText) findViewById(R.id.txt_email);
         txt_password = (EditText) findViewById(R.id.txt_password);
+        txt_placa = (EditText) findViewById(R.id.txt_placa);
         btn_guardar_usuario = (Button) findViewById(R.id.btn_guardar_usuario);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,6 +60,7 @@ public class RegistrarUsuario extends AppCompatActivity {
         // Store values at the time of the login attempt.
         String nombre = txt_nombre.getText().toString();
         String apellido = txt_apellido.getText().toString();
+        String placa = txt_placa.getText().toString();
         String email = txt_email.getText().toString();
         String password = txt_password.getText().toString();
 
@@ -90,7 +93,7 @@ public class RegistrarUsuario extends AppCompatActivity {
 
             ////****
             APIService mApiService = Controller.getInterfaceService();
-            Call<RespuestaAPIServidor> mService = mApiService.registrarUsuarioAPI(nombre, apellido, email, password);
+            Call<RespuestaAPIServidor> mService = mApiService.registrarUsuarioAPI(nombre, apellido, placa, email, password);
 
 
             mService.enqueue(new Callback<RespuestaAPIServidor>() {

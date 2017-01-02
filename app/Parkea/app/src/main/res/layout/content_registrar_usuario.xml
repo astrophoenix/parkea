@@ -12,12 +12,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="amycorp.parkea.RegistrarUsuario"
     tools:showIn="@layout/activity_registrar_usuario"
-    android:background="#f5f5dc">
+    android:background="@android:color/white">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <EditText
             android:layout_width="match_parent"
@@ -25,7 +28,10 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/txt_nombre"
-            android:hint="Nombre" />
+            android:hint="Nombre"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:paddingBottom="20dp"
+            android:layout_marginTop="20dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -33,7 +39,19 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/txt_apellido"
-            android:hint="Apellido" />
+            android:hint="Apellido"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:paddingBottom="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_placa"
+            android:hint="Placa"
+            android:drawableLeft="@drawable/ic_carro_black_24dp"
+            android:paddingBottom="20dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -41,7 +59,9 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/txt_email"
-            android:hint="correo@mail.com" />
+            android:hint="correo@mail.com"
+            android:drawableLeft="@drawable/ic_mail_black_24dp"
+            android:paddingBottom="20dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -49,14 +69,17 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/txt_password"
-            android:hint="clave" />
+            android:hint="clave"
+            android:drawableLeft="@drawable/ic_https_black_24dp"
+            android:paddingBottom="20dp" />
 
         <Button
             android:text="Guardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_guardar_usuario"
-            android:background="@color/abc_search_url_text_normal" />
+            android:background="@android:color/holo_orange_light"
+            android:layout_marginTop="26dp" />
 
     </LinearLayout>
 </RelativeLayout>

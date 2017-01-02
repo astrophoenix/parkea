@@ -37,29 +37,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
-//import retrofit2.Retrofit;
-//import retrofit2.converter.gson.GsonConverterFactory;
 
 
-/**
- * A login screen that offers login via email/password.
- */
+
+//Clase que maneja la lógica de la plantalla de login
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-//    private static final String TAG = "ESSS";
-//    private static final String[] DUMMY_CREDENTIALS = new String[]{
-//            "foo@example.com:hello", "bar@example.com:world"
-//    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
-
-    // UI references.
+    // Variables de Elementos de la Pantalla
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -78,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    ValidarLogin();
                     return true;
                 }
                 return false;
@@ -89,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                ValidarLogin();
             }
         });
 
@@ -113,32 +97,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Valida los campos del formulario login.
+     * Si existen errores en el formulario antes de enviarlo y muestra los mensajes de error
+     * Sino Envía los datos de login al servidor para ser verificados
      */
-    private void attemptLogin() {
+    private void ValidarLogin() {
 
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
+        // Obtiene los valores de la pantalla.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
+        // verfica si la clave es correcta
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // verifica si el correco es correcto
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -150,22 +134,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // Muestra Show a progress spinner, hasta esperar la respuesta del servidor
             showProgress(true);
-            Log.d("AAA", "dddddd");
-            this.loginProcess(email, password);
-            Log.d("AAA", "cccccc");
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
+            this.ProcesoLoginUsuario(email, password);
         }
     }
 
-    private void loginProcess(final String email, String password)
+    /*
+        Método que envía valida un usuario al momento de hacer login en la app.
+        Envía correo y clave al servidor.
+    */
+    private void ProcesoLoginUsuario(final String email, String password)
     {
         APIService mApiService = Controller.getInterfaceService();
         Call<RespuestaAPIServidor> mService = mApiService.validarUsuarioAPI(email, password);
@@ -174,34 +155,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
 
+                //Respuesta Exitosa del Servidor
                 if(response.isSuccessful())
                 {
-                    RespuestaAPIServidor mLoginObject = response.body();
-                    String returnedResponse = mLoginObject.estado;
+                    RespuestaAPIServidor resp = response.body();
+                    String returnedResponse = resp.estado;
                     showProgress(false);
-                    if(returnedResponse.trim().equals("1")){
+                    if(returnedResponse.trim().equals("0")){
+                        Toast.makeText(LoginActivity.this, "Usuario Incorrecto", Toast.LENGTH_LONG).show();
+                        mPasswordView.requestFocus();
+                    }else {
+                        Global.usuario_id = Integer.valueOf(returnedResponse);
                         Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
                         startActivity(inicioIntent);
-
-                    }else if(returnedResponse.trim().equals("0")){
-                        // use the registration button to register
-                        //failedLoginMessage.setText(getResources().getString(R.string.registration_message));
-                        Toast.makeText(LoginActivity.this, "Usuario No registrado", Toast.LENGTH_LONG).show();
-                        mPasswordView.requestFocus();
                     }
                 }
                 else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
                 call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2",t.getCause()+"");
-                Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2",t.getCause()+"");
+                Toast.makeText(LoginActivity.this, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
         });
     }

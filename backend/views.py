@@ -10,13 +10,20 @@ from datetime import datetime
 def validar_login(request, correo, clave):
 	personas = Persona.objects.filter(correo=unquote(correo), clave=unquote(clave))
 	if personas.count() == 1:
-		estado = 1
+		persona = personas.first()
+		estado = persona.id
 	else:
 		estado = 0
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
-def registrar_usuario(request, nombre, apellido, correo, clave):
+
+def obtener_usuario(request, usuario_id):
+	usuario = Persona.objects.get(pk=usuario_id)
+	data = {'nombre': usuario.nombre, 'apellido': usuario.apellido, 'correo':usuario.correo}
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
+def registrar_usuario(request, nombre, apellido, placa, correo, clave):
 	personas = Persona.objects.filter(correo=unquote(correo))
 	# No existen Personas previas con el usuario.
 	if personas.count() == 0:
@@ -28,8 +35,10 @@ def registrar_usuario(request, nombre, apellido, correo, clave):
 			persona.correo = correo
 			persona.clave = clave
 			persona.tipo = Persona.VISITANTE
-			estado = 1
 			persona.save()
+			detalle_placa = PersonaPlaca(persona=persona, placa=placa)
+			detalle_placa.save()
+			estado = persona.id
 		except Exception as e:
 			estado = 0	
 	else:
@@ -60,7 +69,14 @@ def registrar_parqueo_persona(request, parqueadero_id, placa):
 
 def obtener_facultades(request):
 	facultades = Facultad.objects.values_list('id', 'nombre')
-	data = json.dumps([{"id": f[0], "nombre": f[1]} for f in facultades])
+	arr_facultades = []
+	for facultad in facultades:
+		parqueaderos = Parqueadero.objects.filter(facultad__id=facultad[0])
+		num_parqueaderos = parqueaderos.count()
+		facultad_item = { "id": facultad[0], "nombre": facultad[1], 'num_parqueos': num_parqueaderos }
+		arr_facultades.append(facultad_item)
+	data = json.dumps(arr_facultades)
+	# data = json.dumps([{"id": f[0], "nombre": f[1]} for f in facultades])
 	return HttpResponse(data, content_type='application/json')
 
 def obtener_parqueaderosxfacultad(request, facultad_id):

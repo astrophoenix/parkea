@@ -1,23 +1,12 @@
 package amycorp.parkea;
 
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import amycorp.parkea.Adapters.FacultadAdaptador;
@@ -27,7 +16,6 @@ import amycorp.parkea.services.Controller;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FacultadesActivity extends AppCompatActivity {
     private RecyclerView rv;
@@ -56,26 +44,23 @@ public class FacultadesActivity extends AppCompatActivity {
 
                     final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    rv.setLayoutManager(layoutManager);
                     rv.setHasFixedSize(false);
+                    rv.setLayoutManager(layoutManager);
                     rv.setAdapter(facultad_adaptador);
 
-                    //rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    //rv.setHasFixedSize(false);
-                    //rv.setAdapter(facultad_adaptador);
-
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Facultad>> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
 
 

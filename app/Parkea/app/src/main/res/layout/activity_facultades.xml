@@ -4,12 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="amycorp.parkea.FacultadesActivity">
+    tools:context="amycorp.parkea.FacultadesActivity"
+    android:background="@android:color/white"
+    >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lista_facultades"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    />
+        android:background="@android:color/white"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lista_facultades"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+    </LinearLayout>
 
 </RelativeLayout>

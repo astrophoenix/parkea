@@ -55,8 +55,8 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
     @Override
     public void onBindViewHolder(ParqueaderoAdaptador.ViewHolder holder, final int position) {
 
-        //holder.disponibles.setText(list_parqueaderos.get(position).getDisponibles());
-        //holder.capacidad.setText(list_parqueaderos.get(position).getCapacidad());
+        holder.disponibles.setText(String.valueOf(list_parqueaderos.get(position).getDisponibles()));
+        holder.capacidad.setText(String.valueOf(list_parqueaderos.get(position).getCapacidad()));
         holder.nombre_parqueadero.setText(list_parqueaderos.get(position).getNombre());
         holder.nombre_parqueadero.setOnClickListener(new View.OnClickListener() {
 
@@ -65,7 +65,6 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
                 Intent intent = new Intent(v.getContext(), RegistrarParqueoActivity.class);
                 intent.putExtra("facultad_id", list_parqueaderos.get(position).getFacultad_id());
                 intent.putExtra("parqueadero_id", list_parqueaderos.get(position).getId());
-                Log.i("Accion", "Ir a otra activity");
                 v.getContext().startActivity(intent);
 
             }

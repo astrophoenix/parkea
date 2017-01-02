@@ -1,43 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_inicio"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="amycorp.parkea.InicioActivity">
-
-    <GridView
-        android:id="@+id/gridView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:columnWidth="80dp"
         android:gravity="center"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth" >
-    </GridView>
+        tools:context="amycorp.parkea.InicioActivity"
+        android:background="@android:color/white"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:paddingRight="10dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:drawableTop="@drawable/agregar"
+                android:text="\nRegistrar"
+                android:id="@+id/btnRegistrarParqueo"
+                android:textColor="#050505"
+                android:background="@android:color/transparent"
+                android:padding="10dp" />
 
 
-        <LinearLayout
-            android:orientation="vertical"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/miperfil"
+                android:text="\nMi Perfil"
+                android:id="@+id/btnPerfilUsuario"
+                android:textColor="#050505"
+                android:layout_marginLeft="20dp" />
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal">
 
             <Button
-                android:text="Parqueaderos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_consultar_parqueaderos" />
+
+                android:drawableTop="@drawable/consultar"
+                android:text="\nConsultar"
+                android:id="@+id/btnConsultarParqueos"
+                android:textColor="#050505"
+                android:background="@android:color/transparent"
+                android:paddingRight="10dp" />
 
             <Button
-                android:text="Reportar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_reportar_parqueaderos" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:drawableTop="@drawable/actualizar"
+                android:text="\nReportar"
+                android:id="@+id/btnReportarParqueaderos"
+                android:textColor="#050505"
+                android:background="@android:color/transparent"
+                android:paddingLeft="16dp" />
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>
 

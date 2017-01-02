@@ -1,14 +1,18 @@
 package amycorp.parkea;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.StringTokenizer;
 import amycorp.parkea.Adapters.FacultadAdaptador;
 import amycorp.parkea.Adapters.ParqueaderoAdaptador;
 import amycorp.parkea.models.Facultad;
+import amycorp.parkea.models.Global;
 import amycorp.parkea.models.Parqueadero;
 import amycorp.parkea.models.Placa;
 import amycorp.parkea.models.RespuestaAPIServidor;
@@ -48,10 +53,9 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
             FACULTAD_ID = bundle.getInt("facultad_id");
             PARQUEADERO_ID = bundle.getInt("parqueadero_id");
         }
+        //Carga las Facultades y Placas en los spinners
         obtenerFacultades();
-        obtenerPlacasXPersona(28); //id quemado temporalmente
-
-
+        obtenerPlacasXPersona(Global.usuario_id);
 
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +76,22 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
 
                     List<Facultad> facultades = response.body();
 
-                    ArrayAdapter<Facultad> spinnerAdapter = new ArrayAdapter<Facultad>(getApplicationContext(), android.R.layout.simple_spinner_item, facultades);
+                    final ArrayAdapter<Facultad> spinnerAdapter = new ArrayAdapter<Facultad>(
+                            getApplicationContext(),android.R.layout.simple_spinner_item, facultades){
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+
+                            // Set the Text color
+                            tv.setTextColor(Color.parseColor("#222222"));
+
+                            return view;
+                        }
+                    };
+
+                    //ArrayAdapter<Facultad> spinnerAdapter = new ArrayAdapter<Facultad>(getApplicationContext(), android.R.layout.simple_spinner_item, facultades){}
                     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerFacultades.setAdapter(spinnerAdapter);
                     int i;
@@ -89,6 +108,8 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
                             Facultad selectedItem = (Facultad)parent.getItemAtPosition(position);
                             Integer facultad_id = selectedItem.getId();
                             obtenerParqueaderosXFacultad(facultad_id);
+                            ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#222222"));
+
                         }
 
                         public void onNothingSelected(AdapterView<?> parent) { }
@@ -96,16 +117,18 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
 
 
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Facultad>> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
                 //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
             }
 
@@ -124,27 +147,55 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     List<Parqueadero> parqueaderos = response.body();
-                    ArrayAdapter<Parqueadero> spinnerParqueaderosAdapter = new ArrayAdapter<Parqueadero>(getApplicationContext(), android.R.layout.simple_spinner_item, parqueaderos);
+                    //ArrayAdapter<Parqueadero> spinnerParqueaderosAdapter = new ArrayAdapter<Parqueadero>(getApplicationContext(), android.R.layout.simple_spinner_item, parqueaderos);
+                    final ArrayAdapter<Parqueadero> spinnerParqueaderosAdapter = new ArrayAdapter<Parqueadero>(getApplicationContext(),android.R.layout.simple_spinner_item, parqueaderos){
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+
+                            // Set the Text color
+                            tv.setTextColor(Color.parseColor("#222222"));
+
+                            return view;
+                        }
+                    };
                     spinnerParqueaderosAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerParqueaderos.setAdapter(spinnerParqueaderosAdapter);
                     int i;
                     for (i = 0; i < parqueaderos.size(); i++) {
                         Integer parqueaid = parqueaderos.get(i).getId();
-                        if ( parqueaid.toString().trim() == String.valueOf(PARQUEADERO_ID))
+                        if ( parqueaid.toString().trim() == String.valueOf(PARQUEADERO_ID)){
                             spinnerParqueaderos.setSelection(i);
+                            //((TextView) spinnerParqueaderos.getChildAt(0)).setTextColor(Color.parseColor("#222222"));
+                        }
+
                     }
 
+                    spinnerParqueaderos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+                    {
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                        {
+                            ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#222222"));
+                        }
+
+                        public void onNothingSelected(AdapterView<?> parent) { }
+                    });
+
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Parqueadero>> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
                 //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
             }
 
@@ -161,21 +212,47 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
             public void onResponse(Call<List<Placa>> call, Response<List<Placa>> response) {
                 if (response.isSuccessful()) {
                     List<Placa> placas = response.body();
-                    ArrayAdapter<Placa> spinnerPlacasAdapter = new ArrayAdapter<Placa>(getApplicationContext(), android.R.layout.simple_spinner_item, placas);
+                    //ArrayAdapter<Placa> spinnerPlacasAdapter = new ArrayAdapter<Placa>(getApplicationContext(), android.R.layout.simple_spinner_item, placas);
+
+                    //ArrayAdapter<Parqueadero> spinnerParqueaderosAdapter = new ArrayAdapter<Parqueadero>(getApplicationContext(), android.R.layout.simple_spinner_item, parqueaderos);
+                    final ArrayAdapter<Placa> spinnerPlacasAdapter = new ArrayAdapter<Placa>(getApplicationContext(),android.R.layout.simple_spinner_item, placas){
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+                            TextView tv = (TextView) view;
+
+                            // Set the Text color
+                            tv.setTextColor(Color.parseColor("#222222"));
+
+                            return view;
+                        }
+                    };
                     spinnerPlacasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerPlacas.setAdapter(spinnerPlacasAdapter);
+                    spinnerPlacas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+                    {
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                        {
+                            ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#222222"));
+                        }
+
+                        public void onNothingSelected(AdapterView<?> parent) { }
+                    });
+
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Placa>> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
 
 
@@ -199,18 +276,27 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     RespuestaAPIServidor r = response.body();
                     String returnedResponse = r.estado;
+                    if(returnedResponse.trim().equals("1")){
+                        Toast.makeText(getApplicationContext(), "Registro Exitoso", Toast.LENGTH_LONG).show();
+                        Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
+                        startActivity(inicioIntent);
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
+                    }
+
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
 
 

@@ -1,37 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/nombre_parqueadero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"
-        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/disponibles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"
-        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/parking2"
+            android:id="@+id/imageView2"
+            android:padding="18dp" />
 
-    <TextView
-        android:id="@+id/capacidad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"
-        />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/nombre_parqueadero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/thumbnail"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
+                android:text="Parqueadero"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:paddingLeft="10dp"
+                android:paddingTop="14dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.67">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:id="@+id/imgdisponibles"
+                    android:src="@drawable/dispo_si"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/disponibles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="1"
+                    android:text="3 dispo"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp"
+                    android:textAllCaps="false" />
+                    android:paddingLeft="10dp" />
+
+                <ImageView
+                    android:layout_height="34dp"
+                    android:src="@drawable/box_capacidad"
+                    android:id="@+id/imgcapacidad"
+                    android:layout_width="20dp" />
+
+                <TextView
+                    android:id="@+id/capacidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/secondary_text_default_material_light"
+                    android:text="4capac"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:layout_height="25dp"
+        android:id="@+id/imageView5"
+        android:src="@drawable/substract"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp" />
 
 </LinearLayout>

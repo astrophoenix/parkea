@@ -28,20 +28,32 @@
         <activity
             android:name=".RegistrarUsuario"
             android:label="@string/title_activity_registrar_usuario"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FacultadesActivity"
-            android:screenOrientation="portrait"/>
+            android:label="Facultades"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ParqueaderosFacultadActivity"
-            android:screenOrientation="portrait"/>
+            android:label="Parqueaderos"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegistrarParqueoActivity"
+            android:label="Registrar Parqueo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InicioActivity"
+            android:label="Mis Opciones"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MiPerfilActivity"
+            android:label="Mi Perfil"
             android:screenOrientation="portrait"/>
-
-        <activity android:name=".InicioActivity"></activity>
+        <activity
+            android:name=".ReportarParqueaderosActivity"
+            android:label="Reportar Parqueo"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

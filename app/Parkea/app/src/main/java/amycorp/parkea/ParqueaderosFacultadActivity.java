@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,6 @@ public class ParqueaderosFacultadActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             FACULTAD_ID = bundle.getInt("facultad_id");
-            Log.d("FID", String.valueOf(FACULTAD_ID));
         }
         obtenerParqueaderosXFacultad(FACULTAD_ID);
 
@@ -39,8 +39,6 @@ public class ParqueaderosFacultadActivity extends AppCompatActivity {
 
     private void obtenerParqueaderosXFacultad(Integer facultad_id) {
         APIService mApiService = Controller.getInterfaceService();
-        //Integer facultad_id = FACULTAD_ID;
-        Log.d("AAA", "id facultad a foo: " + facultad_id);
         Call<List<Parqueadero>> mService = mApiService.obtenerParqueaderosXFacultadAPI(facultad_id);
         mService.enqueue(new Callback<List<Parqueadero>>() {
             @Override
@@ -57,17 +55,18 @@ public class ParqueaderosFacultadActivity extends AppCompatActivity {
                     rv.setAdapter(parqueadero_adaptador);
 
                 } else {
-                    Log.e("Error Code", String.valueOf(response.code()));
-                    Log.e("Error Body", response.errorBody().toString());
+                    //Log.e("Error Code", String.valueOf(response.code()));
+                    //Log.e("Error Body", response.errorBody().toString());
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Parqueadero>> call, Throwable t) {
                 //call.cancel();
-                Log.d("ERROR1", t.getMessage());
-                Log.i("ERROR2", t.getCause() + "");
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                //Log.d("ERROR1", t.getMessage());
+                //Log.i("ERROR2", t.getCause() + "");
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
 
 
