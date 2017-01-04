@@ -29,8 +29,9 @@
             <ImageView
                 android:layout_width="@dimen/abc_action_bar_default_height_material"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_person_black_24dp"
-                android:id="@+id/imageView3" />
+                android:src="@drawable/ic_person_black_24dp"
+                android:id="@+id/imageView3"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:text="Usuario1"
@@ -51,8 +52,9 @@
             <ImageView
                 android:layout_width="@dimen/abc_action_bar_default_height_material"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_mail_black_24dp"
-                android:id="@+id/imageView4" />
+                android:src="@drawable/ic_mail_black_24dp"
+                android:id="@+id/imageView4"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:text="example@mail.com"
@@ -72,8 +74,9 @@
             <ImageView
                 android:layout_width="@dimen/abc_action_bar_default_height_material"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_carro_black_24dp"
-                android:id="@+id/imageView6" />
+                android:src="@drawable/ic_carro_black_24dp"
+                android:id="@+id/imageView6"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:text="Mis Placas"
@@ -100,22 +103,24 @@
             android:paddingTop="5dp">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
-                android:id="@+id/editText"
-                android:layout_weight="1"
+                android:id="@+id/txt_placa"
                 android:hint="Nueva Placa" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_input_add"
-                android:id="@+id/imageButton"
-                android:layout_weight="1" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/signs"
+                android:id="@+id/btnAgregarPlaca"
+                android:textColor="#050505"
+                android:layout_marginLeft="20dp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
 </RelativeLayout>

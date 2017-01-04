@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import amycorp.parkea.models.Global;
 import amycorp.parkea.models.RespuestaAPIServidor;
 import amycorp.parkea.services.APIService;
 import amycorp.parkea.services.Controller;
@@ -93,6 +94,8 @@ public class RegistrarUsuario extends AppCompatActivity {
 
             ////****
             APIService mApiService = Controller.getInterfaceService();
+
+
             Call<RespuestaAPIServidor> mService = mApiService.registrarUsuarioAPI(nombre, apellido, placa, email, password);
 
 
@@ -105,31 +108,28 @@ public class RegistrarUsuario extends AppCompatActivity {
                         RespuestaAPIServidor mLoginObject = response.body();
                         String returnedResponse = mLoginObject.estado;
                         //showProgress(false);
-                        if(returnedResponse.trim().equals("1")){
+                        if(returnedResponse.trim().equals("0")){
+                            Toast.makeText(RegistrarUsuario.this, "No se ha podido registrar el usuario, ya existe", Toast.LENGTH_LONG).show();
+                        }else {
+                            Global.usuario_id = Integer.valueOf(returnedResponse);
+                            Toast.makeText(RegistrarUsuario.this, "Registro de usuario Exitoso", Toast.LENGTH_LONG).show();
                             Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
                             startActivity(inicioIntent);
-                            // redirect to Main Activity page
-                            //Intent facultadesIntent = new Intent(RegistrarUsuario.this, RegistrarParqueoActivity.class);
-                            //startActivity(facultadesIntent);
-//                            Toast.makeText(RegistrarUsuario.this, "Registrado OK", Toast.LENGTH_LONG).show();
-                        }else if(returnedResponse.trim().equals("0")){
-                            // use the registration button to register
-                            //failedLoginMessage.setText(getResources().getString(R.string.registration_message));
-                            Toast.makeText(RegistrarUsuario.this, "Usuario No registrado", Toast.LENGTH_LONG).show();
-                            //mPasswordView.requestFocus();
                         }
                     }
                     else {
-                        Log.e("Error Code", String.valueOf(response.code()));
-                        Log.e("Error Body", response.errorBody().toString());
+                        //Log.e("Error Code", String.valueOf(response.code()));
+                        //Log.e("Error Body", response.errorBody().toString());
+                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                    call.cancel();
-                    Log.d("ERROR1", t.getMessage());
-                    Log.i("ERROR2",t.getCause()+"");
+                    //call.cancel();
+                    //Log.d("ERROR1", t.getMessage());
+                    //Log.i("ERROR2",t.getCause()+"");
+                    Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
                     //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
                 }
             });

@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'obtener_usuario/(?P<usuario_id>[0-9]+)/$', views.obtener_usuario),
     url(r'registrar_usuario/(?P<nombre>[\w\d@\.-]+)/(?P<apellido>[\w\d@\.-]+)/(?P<placa>[\w\d@\.-]+)/(?P<correo>[\w\d@\.-]+)/(?P<clave>[\w\d@\.-]+)/$', views.registrar_usuario),
     url(r'registrar_parqueo_persona/(?P<parqueadero_id>[0-9]+)/(?P<placa>[\w\d@\.-]+)/$', views.registrar_parqueo_persona),
+    url(r'registrar_placa_usuario/(?P<usuario_id>[0-9]+)/(?P<placa>[\w\d@\.-]+)/$', views.registrar_placa_usuario),
 ]

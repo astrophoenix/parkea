@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +32,8 @@ public class MiPerfilActivity extends AppCompatActivity {
     private TextView lblnombres_apellido;
     private TextView lblcorreo;
     private Spinner spinnerPlacas;
+    private Button btnAgregarPlaca;
+    private EditText txtPlaca;
 
 
     @Override
@@ -38,8 +43,20 @@ public class MiPerfilActivity extends AppCompatActivity {
         lblnombres_apellido = (TextView) findViewById(R.id.lblnombre);
         lblcorreo = (TextView) findViewById(R.id.lblemail);
         spinnerPlacas = (Spinner) findViewById(R.id.spn_placas);
+        btnAgregarPlaca = (Button) findViewById(R.id.btnAgregarPlaca);
+        txtPlaca = (EditText) findViewById(R.id.txt_placa);
+
         obtenerPlacasXPersona(Global.usuario_id);
         obtenerDatosUsuario(Global.usuario_id);
+
+
+        btnAgregarPlaca.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String txt_placa = txtPlaca.getText().toString();
+                agregarPlacaUsuario(Global.usuario_id, txt_placa);
+            }
+        });
+
     }
 
 
@@ -60,6 +77,8 @@ public class MiPerfilActivity extends AppCompatActivity {
                     lblcorreo.setText(String.valueOf(u.getCorreo()));
                 }
                 else {
+                    Log.e("Error Code", String.valueOf(response.code()));
+
                     Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
@@ -120,6 +139,43 @@ public class MiPerfilActivity extends AppCompatActivity {
             }
 
 
+        });
+    }
+
+
+    private void agregarPlacaUsuario(Integer usuario_id, String placa)
+    {
+        APIService mApiService = Controller.getInterfaceService();
+        Call<RespuestaAPIServidor> mService = mApiService.registrarPlacaUsuarioAPI(usuario_id, placa);
+
+        mService.enqueue(new Callback<RespuestaAPIServidor>() {
+            @Override
+            public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+
+                //Respuesta Exitosa del Servidor
+                if(response.isSuccessful())
+                {
+                    RespuestaAPIServidor r = response.body();
+                    String returnedResponse = r.estado;
+                    if(returnedResponse.trim().equals("1")){
+                        Toast.makeText(getApplicationContext(), "Placa registada Exitosamente.", Toast.LENGTH_LONG).show();
+                        obtenerPlacasXPersona(Global.usuario_id);
+                        txtPlaca.setText("");
+                    }else if (returnedResponse.trim().equals("-1")) {
+                        Toast.makeText(getApplicationContext(), "Placa ya existe para esta persona.", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Placa No registada.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+            }
         });
     }
 }

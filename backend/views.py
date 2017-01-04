@@ -19,6 +19,7 @@ def validar_login(request, correo, clave):
 
 
 def obtener_usuario(request, usuario_id):
+	print 'usu id: ' + str(usuario_id)
 	usuario = Persona.objects.get(pk=usuario_id)
 	data = {'nombre': usuario.nombre, 'apellido': usuario.apellido, 'correo':usuario.correo}
 	return HttpResponse(json.dumps(data), content_type='application/json')
@@ -62,7 +63,6 @@ def registrar_parqueo_persona(request, parqueadero_id, placa):
 			reg_parqueo.save()
 			estado = 1
 		except Exception as e:
-			print str(e)
 			pass
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
@@ -93,4 +93,20 @@ def obtener_placasxpersona(request, persona_id):
 		data = json.dumps([{"nombre": p[0] } for p in placas_persona])
 	return HttpResponse(data, content_type='application/json')
 
+
+def registrar_placa_usuario(request, usuario_id, placa):
+	estado = 0
+	try:
+		placas_persona = PersonaPlaca.objects.filter(persona__id=usuario_id, placa=placa)
+		if placas_persona.count() == 0:
+			detalle_placa = PersonaPlaca(persona_id=usuario_id, placa=placa)
+			detalle_placa.save()
+			estado = 1
+		else:
+			estado = -1
+	except Exception as e:
+		pass
+	
+	data = {'estado': estado}
+	return HttpResponse(json.dumps(data), content_type='application/json')
 
