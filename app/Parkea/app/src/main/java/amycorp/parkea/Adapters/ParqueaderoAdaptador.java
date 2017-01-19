@@ -1,20 +1,25 @@
 package amycorp.parkea.Adapters;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import amycorp.parkea.ParqueaderosFacultadActivity;
+import amycorp.parkea.MapaActivity;
 import amycorp.parkea.R;
 import amycorp.parkea.RegistrarParqueoActivity;
-import amycorp.parkea.models.Facultad;
+import amycorp.parkea.fragments.ParqueaderosFacultadFragment;
+import amycorp.parkea.fragments.RegistrarFragment;
 import amycorp.parkea.models.Parqueadero;
 
 public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdaptador.ViewHolder>
@@ -22,6 +27,7 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
 {
 
     private List<Parqueadero> list_parqueaderos;
+    Context thiscontext;
 
     public ParqueaderoAdaptador(List<Parqueadero> list_parqueaderos) {
         this.list_parqueaderos = list_parqueaderos;
@@ -32,6 +38,7 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
         private TextView nombre_parqueadero;
         private TextView disponibles;
         private TextView capacidad;
+        private ImageView img_mapa;
 
 
         public ViewHolder(final View itemView)
@@ -40,6 +47,7 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
             nombre_parqueadero = (TextView) itemView.findViewById(R.id.nombre_parqueadero);
             disponibles = (TextView) itemView.findViewById(R.id.disponibles);
             capacidad = (TextView) itemView.findViewById(R.id.capacidad);
+            img_mapa = (ImageView) itemView.findViewById(R.id.img_mapa);
         }
 
 
@@ -62,11 +70,22 @@ public class ParqueaderoAdaptador extends RecyclerView.Adapter<ParqueaderoAdapta
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), RegistrarParqueoActivity.class);
-                intent.putExtra("facultad_id", list_parqueaderos.get(position).getFacultad_id());
-                intent.putExtra("parqueadero_id", list_parqueaderos.get(position).getId());
-                v.getContext().startActivity(intent);
+            thiscontext = v.getContext();
+            Fragment fragment = new RegistrarFragment();
+            Bundle args = new Bundle();
+            args.putInt("facultad_id", list_parqueaderos.get(position).getFacultad_id());
+            args.putInt("parqueadero_id", list_parqueaderos.get(position).getId());
+            fragment.setArguments(args);
+            ((AppCompatActivity)thiscontext).getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).addToBackStack(null).commit();
+            }
+        });
 
+        holder.img_mapa.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MapaActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 

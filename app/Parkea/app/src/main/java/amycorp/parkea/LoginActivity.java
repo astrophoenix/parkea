@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         mPasswordView.requestFocus();
                     }else {
                         Global.usuario_id = Integer.valueOf(returnedResponse);
-                        Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
+                        Intent inicioIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
                         startActivity(inicioIntent);
                     }
                 }

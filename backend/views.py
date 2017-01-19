@@ -6,6 +6,8 @@ import json
 from urllib import unquote
 from django.db import transaction
 from datetime import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+from decimal import *
 
 def validar_login(request, correo, clave):
 	personas = Persona.objects.filter(correo=unquote(correo), clave=unquote(clave))
@@ -48,18 +50,22 @@ def registrar_usuario(request, nombre, apellido, placa, correo, clave):
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
-def registrar_parqueo_persona(request, parqueadero_id, placa):
+def registrar_parqueo_persona(request, parqueadero_id, placa, longitud, latitud, usuario_id):
 	estado = 0
 	if parqueadero_id and placa:
 		try:
 			hoy = datetime.now()
 			parqueadero = Parqueadero.objects.get(pk=parqueadero_id)		
-			reg_parqueo = registroParqueo()
+			reg_parqueo = RegistroParqueo()
+			reg_parqueo.usuario_id = usuario_id
 			reg_parqueo.facultad = parqueadero.facultad
 			reg_parqueo.parqueadero = parqueadero
 			reg_parqueo.placa = placa
 			reg_parqueo.fecha_ingreso = hoy
-			reg_parqueo.hora_ingreso = hoy.time() 
+			reg_parqueo.hora_ingreso = hoy.time()
+			reg_parqueo.longitud = longitud
+			reg_parqueo.latitud = latitud
+			reg_parqueo.estado = 'A'
 			reg_parqueo.save()
 			estado = 1
 		except Exception as e:
@@ -76,8 +82,15 @@ def obtener_facultades(request):
 		facultad_item = { "id": facultad[0], "nombre": facultad[1], 'num_parqueos': num_parqueaderos }
 		arr_facultades.append(facultad_item)
 	data = json.dumps(arr_facultades)
-	# data = json.dumps([{"id": f[0], "nombre": f[1]} for f in facultades])
 	return HttpResponse(data, content_type='application/json')
+
+
+def obtener_historial_parqueo_persona(request, usuario_id):
+	data = {}
+	parqueos_persona = RegistroParqueo.objects.filter(usuario__id=int(usuario_id)).values_list('id', 'usuario', 'facultad', 'parqueadero', 'placa', 'fecha_ingreso', 'hora_ingreso', 'fecha_salida', 'hora_salida', 'longitud', 'latitud', 'estado')
+	data = json.dumps([{"id": p[0], "persona_id": p[1], "facultad_id": p[2], "parqueadero_id":p[3], "placa":p[4], "fecha_ingreso":p[5], "hora_ingreso":p[6], "fecha_salida":p[7], "hora_salida":p[8], "longitud":p[9], "latitud":p[10], "estado":p[11] } for p in parqueos_persona], cls=DjangoJSONEncoder)
+	return HttpResponse(data, content_type='application/json')
+
 
 def obtener_parqueaderosxfacultad(request, facultad_id):
 	data = {}
@@ -108,5 +121,90 @@ def registrar_placa_usuario(request, usuario_id, placa):
 		pass
 	
 	data = {'estado': estado}
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
+def actualizar_estado_parqueo_persona(request, parqueo_id):
+	
+	hoy = datetime.now()
+	reg_parqueo = RegistroParqueo.objects.get(pk=int(parqueo_id))
+	if reg_parqueo.estado == 'A':
+		reg_parqueo.estado = 'I' #Marca la Salida
+		reg_parqueo.fecha_salida = hoy
+		reg_parqueo.hora_salida = hoy.time()
+	else:
+		reg_parqueo.estado = 'A' #Marca la Salida
+		reg_parqueo.fecha_salida = None
+		reg_parqueo.hora_salida = None
+	reg_parqueo.save()
+
+	data = {
+			"id": reg_parqueo.id, 
+			"persona_id": reg_parqueo.usuario_id,
+			"facultad_id": reg_parqueo.facultad_id,
+			"parqueadero_id":reg_parqueo.parqueadero_id,
+			"placa":reg_parqueo.placa,
+			"fecha_ingreso":reg_parqueo.fecha_ingreso,
+			"hora_ingreso":reg_parqueo.hora_ingreso,
+			"fecha_salida":reg_parqueo.fecha_salida,
+			"hora_salida":reg_parqueo.hora_salida,
+			"longitud":reg_parqueo.longitud,
+			"latitud":reg_parqueo.latitud,
+			"estado":reg_parqueo.estado
+		}
+
+	data = json.dumps(data, cls=DjangoJSONEncoder)
+	return HttpResponse(data, content_type='application/json')
+
+def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, usuario_id):
+	reporte = ReportePersona()
+	reporte.parqueadero_id = parqueadero_id
+	reporte.num_parqueos_ocupados = num_parqueos_ocupados
+	reporte.persona_id = usuario_id
+	reporte.save()
+	estado = 1 #Guarda registro y no genera una recompensa
+	try:
+		reportes = ReportePersona.objects.filter(persona__id=usuario_id)
+		num_total_reportes = reportes.count()
+		rating_actual = num_total_reportes % 5
+		cociente = num_total_reportes / 5
+		if cociente > 0 and rating_actual == 0 :
+			#Se busca el porcentaje disponible de parqueos en un parqueo determinado
+			parqueadero = Parqueadero.objects.get(pk=parqueadero_id)
+			facc = Decimal(parqueadero.disponibles)/Decimal(parqueadero.capacidad) * 100
+			porcentaje_disponibles = Decimal(facc.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
+			
+			# Se crea una noticia tipo recompensa
+			noticia = Noticia()
+			noticia.tipo = Noticia.TIPO_NOTICIA_RECOMPENSA
+			noticia.descripcion = 'Parqueos disponibles: ' + str(porcentaje_disponibles) + '%'
+			noticia.usuario_id = usuario_id
+			noticia.save()
+			estado = 2 #Guarda registro y genera una recompensa a notificar
+	except Exception as e:
+		print str(e)
+
+	data = {'estado': estado}
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
+def obtener_eventos(request):
+	data = {}
+	noticias = Noticia.objects.filter(tipo=Noticia.TIPO_NOTICIA_EVENTO).order_by('-fecha_creacion').values_list('id', 'descripcion', 'tipo')
+	data = json.dumps([{"id": p[0], "descripcion": p[1], "tipo": p[2] } for p in noticias], cls=DjangoJSONEncoder)
+	return HttpResponse(data, content_type='application/json')
+
+def obtener_recompensaxusuario(request, usuario_id):
+	data = {}
+	recompensas = Noticia.objects.filter(tipo=Noticia.TIPO_NOTICIA_RECOMPENSA, usuario__id=usuario_id).order_by('-fecha_creacion').values_list('id', 'descripcion', 'tipo')
+	data = json.dumps([{"id": p[0], "descripcion": p[1], "tipo": p[2] } for p in recompensas], cls=DjangoJSONEncoder)
+	return HttpResponse(data, content_type='application/json')
+
+def obtener_rating_usuario(request, usuario_id):
+	reportes = ReportePersona.objects.filter(persona__id=usuario_id)
+	num_total_reportes = reportes.count()
+	rating_actual = num_total_reportes % 5
+	cociente = num_total_reportes / 5
+	if cociente > 0 and rating_actual == 0 :
+		rating_actual = 5
+	data = {'estado': rating_actual}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 

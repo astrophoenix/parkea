@@ -49,7 +49,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/txt_placa"
-            android:hint="Placa"
+            android:hint="Placa (###-####)"
             android:drawableLeft="@drawable/ic_carro_black_24dp"
             android:paddingBottom="20dp" />
 

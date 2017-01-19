@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
+
 import amycorp.parkea.models.Global;
 import amycorp.parkea.models.RespuestaAPIServidor;
 import amycorp.parkea.services.APIService;
@@ -26,6 +29,8 @@ public class RegistrarUsuario extends AppCompatActivity {
     private EditText txt_password;
     private EditText txt_placa;
     private Button btn_guardar_usuario;
+    //private static final String PLACA_MASK = "AAA 9999";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,16 @@ public class RegistrarUsuario extends AppCompatActivity {
         txt_password = (EditText) findViewById(R.id.txt_password);
         txt_placa = (EditText) findViewById(R.id.txt_placa);
         btn_guardar_usuario = (Button) findViewById(R.id.btn_guardar_usuario);
+
+
+        final MaskedTextChangedListener listener = new MaskedTextChangedListener("[AAA]-[0000]", true, txt_placa, null, null);
+
+        txt_placa.addTextChangedListener(listener);
+        txt_placa.setOnFocusChangeListener(listener);
+
+
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,8 +128,9 @@ public class RegistrarUsuario extends AppCompatActivity {
                         }else {
                             Global.usuario_id = Integer.valueOf(returnedResponse);
                             Toast.makeText(RegistrarUsuario.this, "Registro de usuario Exitoso", Toast.LENGTH_LONG).show();
-                            Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
+                            Intent inicioIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
                             startActivity(inicioIntent);
+                            finish();
                         }
                     }
                     else {

@@ -9,9 +9,9 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    //final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
+    final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
     //final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
-    final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
+    //final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
 
 
     @GET("validar_login/{correo}/{clave}")
@@ -28,13 +28,16 @@ public interface APIService {
     @GET("obtener_usuario/{usuario_id}/")
     Call<Usuario> obtenerUsuarioAPI(@Path("usuario_id") Integer usuario_id);
 
-
-    @GET("registrar_parqueo_persona/{parqueadero_id}/{placa}")
-    Call<RespuestaAPIServidor> registrarParqueoPersonaAPI(@Path("parqueadero_id") Integer parqueadero_id, @Path("placa") String placa);
+    @GET("registrar_parqueo_persona/{parqueadero_id}/{placa}/{longitud}/{latitud}/{usuario_id}/")
+    Call<RespuestaAPIServidor> registrarParqueoPersonaAPI(@Path("parqueadero_id") Integer parqueadero_id,
+                                                          @Path("placa") String placa,
+                                                          @Path("longitud") Double longitud,
+                                                          @Path("latitud") Double latitud,
+                                                          @Path("usuario_id") Integer usuario_id
+                                                          );
 
     @GET("registrar_placa_usuario/{usuario_id}/{placa}")
     Call<RespuestaAPIServidor> registrarPlacaUsuarioAPI(@Path("usuario_id") Integer usuario_id, @Path("placa") String placa);
-
 
     @GET("obtener_facultades/")
     Call<List<Facultad>> obtenerFacultadesAPI();
@@ -44,6 +47,32 @@ public interface APIService {
 
     @GET("obtener_placasxpersona/{persona_id}/")
     Call<List<Placa>> obtenerPlacasXPersonaAPI(@Path("persona_id") Integer persona_id);
+
+    @GET("obtener_historial_parqueo_persona/{usuario_id}/")
+    Call<List<ParqueoPersona>> obtenerHistorialXPersonaAPI(@Path("usuario_id") Integer usuario_id);
+
+    @GET("actualizar_estado_parqueo_persona/{parqueo_id}/")
+    Call<ParqueoPersona> actualizarEstadoParqueoPersonaAPI(@Path("parqueo_id") Integer parqueo_id);
+
+    @GET("registrar_reporte_parqueos/{parqueadero_id}/{num_parqueos_ocupados}/{usuario_id}/")
+    Call<RespuestaAPIServidor> registrarReporteParqueosAPI(@Path("parqueadero_id") Integer parqueo_id,
+                                                     @Path("num_parqueos_ocupados") Integer num_parqueos_ocupados,
+                                                     @Path("usuario_id") Integer usuario_id );
+
+    @GET("obtener_eventos/")
+    Call<List<Noticia>> obtenerEventosAPI();
+
+    @GET("obtener_recompensaxusuario/{usuario_id}/")
+    Call<List<Noticia>> obtenerRecompensaXUsuarioAPI(@Path("usuario_id") Integer usuario_id);
+
+    @GET("obtener_rating_usuario/{usuario_id}/")
+    Call<RespuestaAPIServidor> obtenerRatingUsuarioAPI(@Path("usuario_id") Integer usuario_id);
+
+
+
+
+
+
 
 
 

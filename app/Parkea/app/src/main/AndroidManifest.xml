@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!-- Permisos Para acceder gps -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Permisos Para acceder a internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -43,17 +48,15 @@
             android:label="Registrar Parqueo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".InicioActivity"
-            android:label="Mis Opciones"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".MiPerfilActivity"
             android:label="Mi Perfil"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".MapaActivity" />
         <activity
-            android:name=".ReportarParqueaderosActivity"
-            android:label="Reportar Parqueo"
-            android:screenOrientation="portrait"></activity>
+            android:name=".PrincipalActivity"
+            android:label="@string/title_activity_principal"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

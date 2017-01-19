@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:checked="true"
+            android:id="@+id/nav_mi_perfil"
+            android:icon="@drawable/ic_user"
+            android:title="Mi Perfil" />
+
+        <item
+            android:checked="true"
+            android:id="@+id/nav_consular"
+            android:icon="@drawable/ic_find_in_page_black_24dp"
+            android:title="Consultar" />
+        <item
+            android:checked="true"
+            android:id="@+id/nav_registrar"
+            android:icon="@drawable/ic_registrar"
+            android:title="Registrar" />
+        <item
+            android:checked="true"
+            android:id="@+id/nav_reportar"
+            android:icon="@drawable/ic_reportar"
+            android:title="Reportar" />
+        <item
+            android:id="@+id/nav_salir"
+            android:icon="@drawable/ic_salir"
+            android:title="Salir" />
+
+
+
+        <item android:title="Noticias">
+                <menu>
+                    <item
+                        android:id="@+id/nav_eventos"
+                        android:icon="@drawable/ic_eventos"
+                        android:title="Eventos" />
+                    <item
+                        android:id="@+id/nav_encuesta"
+                        android:icon="@drawable/ic_encuestas"
+                        android:title="Encuesta" />
+                    <item
+                        android:id="@+id/nav_recompensa"
+                        android:icon="@drawable/ic_menu_send"
+                        android:title="Recompensas" />
+                </menu>
+        </item>
+</menu>

@@ -39,7 +39,8 @@ class PersonaPlaca(models.Model):
 	def __str__(self):
 		return self.placa
 
-class registroParqueo(models.Model):
+class RegistroParqueo(models.Model):
+	usuario = models.ForeignKey(Persona, null=True)
 	facultad = models.ForeignKey(Facultad, null=True)
 	parqueadero = models.ForeignKey(Parqueadero, null=True)
 	placa = models.CharField(max_length=13, null=True)
@@ -47,7 +48,28 @@ class registroParqueo(models.Model):
 	hora_ingreso = models.TimeField(null=True)
 	fecha_salida = models.DateField(null=True)
 	hora_salida = models.TimeField(null=True)
+	longitud = models.DecimalField(null=True, max_digits=13, decimal_places=10)
+	latitud = models.DecimalField(null=True, max_digits=13, decimal_places=10)
+	estado = models.CharField(max_length=2, null=True)
 
 	def __str__(self):
 		return self.parqueadero.nombre + ' | ' + self.placa
 	
+class ReportePersona(models.Model):
+	parqueadero = models.ForeignKey(Parqueadero, null=True)
+	num_parqueos_ocupados = models.IntegerField(null=True)
+	persona = models.ForeignKey(Persona, null=True)
+	fecha_creacion = models.DateTimeField(auto_now_add=True)
+	ultima_modificacion = models.DateTimeField(auto_now=True)
+
+class Noticia(models.Model):
+	TIPO_NOTICIA_EVENTO = 'E'
+	TIPO_NOTICIA_RECOMPENSA = 'R'
+	descripcion = models.CharField(max_length=200, null=True)
+	tipo = models.CharField(max_length=2, null=True)
+	usuario = models.ForeignKey(Persona, null=True)
+	fecha_creacion = models.DateTimeField(auto_now_add=True)
+	ultima_modificacion = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return self.descripcion + ' | ' + self.tipo

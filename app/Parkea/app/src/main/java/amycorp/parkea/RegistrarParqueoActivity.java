@@ -1,10 +1,12 @@
 package amycorp.parkea;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
-import amycorp.parkea.Adapters.FacultadAdaptador;
-import amycorp.parkea.Adapters.ParqueaderoAdaptador;
 import amycorp.parkea.models.Facultad;
 import amycorp.parkea.models.Global;
 import amycorp.parkea.models.Parqueadero;
@@ -36,6 +35,8 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
     private Spinner spinnerParqueaderos;
     private Spinner spinnerPlacas;
     private Button btnRegistrar;
+    private Double latitude = Double.valueOf(0);
+    private Double longitude = Double.valueOf(0);
     Integer FACULTAD_ID = 0;
     Integer PARQUEADERO_ID = 0;
 
@@ -56,6 +57,22 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
         //Carga las Facultades y Placas en los spinners
         obtenerFacultades();
         obtenerPlacasXPersona(Global.usuario_id);
+
+        // Se bloquean los combos facultad y parqueo
+        spinnerFacultades.setEnabled(false);
+        spinnerFacultades.setClickable(false);
+        spinnerParqueaderos.setEnabled(false);
+        spinnerParqueaderos.setClickable(false);
+
+        //Obtener Localización GPS
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (location != null){
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        }else{
+            Toast.makeText(getApplicationContext(), "Debe activar el gps", Toast.LENGTH_LONG).show();
+        }
 
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +108,6 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
                         }
                     };
 
-                    //ArrayAdapter<Facultad> spinnerAdapter = new ArrayAdapter<Facultad>(getApplicationContext(), android.R.layout.simple_spinner_item, facultades){}
                     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerFacultades.setAdapter(spinnerAdapter);
                     int i;
@@ -138,7 +154,7 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
 
 
     private void obtenerParqueaderosXFacultad(Integer facultad_id ) {
-        Log.d("AAA", "Carga Parqueos" );
+
         APIService mApiService = Controller.getInterfaceService();
         Call<List<Parqueadero>> mService = mApiService.obtenerParqueaderosXFacultadAPI(facultad_id);
         mService.enqueue(new Callback<List<Parqueadero>>() {
@@ -267,8 +283,10 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
         Placa placa = (Placa) spinnerPlacas.getItemAtPosition(spinnerPlacas.getSelectedItemPosition());
         String placa_nombre = placa.getNombre();
 
+        Log.e("longitude", String.valueOf(longitude));
+        Log.e("latitude", String.valueOf(latitude));
         APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre);
+        Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, longitude, latitude, Global.usuario_id);
 
         mService.enqueue(new Callback<RespuestaAPIServidor>() {
             @Override
@@ -278,24 +296,17 @@ public class RegistrarParqueoActivity extends AppCompatActivity {
                     String returnedResponse = r.estado;
                     if(returnedResponse.trim().equals("1")){
                         Toast.makeText(getApplicationContext(), "Registro Exitoso", Toast.LENGTH_LONG).show();
-                        Intent inicioIntent = new Intent(getApplicationContext(), InicioActivity.class);
-                        startActivity(inicioIntent);
                     }else {
                         Toast.makeText(getApplicationContext(), "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
                     Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
                 Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
             }
 

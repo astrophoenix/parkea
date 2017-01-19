@@ -4,15 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import amycorp.parkea.Adapters.FacultadAdaptador;
 import amycorp.parkea.Adapters.ParqueaderoAdaptador;
-import amycorp.parkea.models.Facultad;
 import amycorp.parkea.models.Parqueadero;
 import amycorp.parkea.services.APIService;
 import amycorp.parkea.services.Controller;
