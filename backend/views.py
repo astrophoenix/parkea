@@ -89,7 +89,7 @@ def obtener_facultades(request):
 
 def obtener_historial_parqueo_persona(request, usuario_id):
 	data = {}
-	parqueos_persona = RegistroParqueo.objects.filter(usuario__id=int(usuario_id)).values_list('id', 'usuario', 'facultad', 'parqueadero', 'placa', 'fecha_ingreso', 'hora_ingreso', 'fecha_salida', 'hora_salida', 'longitud', 'latitud', 'estado')
+	parqueos_persona = RegistroParqueo.objects.filter(usuario__id=int(usuario_id)).order_by('-id').values_list('id', 'usuario', 'facultad', 'parqueadero', 'placa', 'fecha_ingreso', 'hora_ingreso', 'fecha_salida', 'hora_salida', 'longitud', 'latitud', 'estado')
 	data = json.dumps([{"id": p[0], "persona_id": p[1], "facultad_id": p[2], "parqueadero_id":p[3], "placa":p[4], "fecha_ingreso":p[5], "hora_ingreso":p[6], "fecha_salida":p[7], "hora_salida":p[8], "longitud":p[9], "latitud":p[10], "estado":p[11] } for p in parqueos_persona], cls=DjangoJSONEncoder)
 	return HttpResponse(data, content_type='application/json')
 
@@ -176,11 +176,11 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 		num_total_reportes_todos = reportes_todos.count()
 
 		num_ultimos_reportados = num_total_reportes_todos % 5
-		cociente = num_total_reportes / 5
+		cociente = num_total_reportes_todos / 5
 		if cociente > 0 and num_ultimos_reportados == 0 :
 			total_disponibles = 0
 			for reporte in reportes_todos[:5]: # los 5 ultimos elementos
-				total_disponibles += reporte.disponibles
+				total_disponibles += reporte.parqueadero.disponibles
 			disponibles_promedio = Decimal(total_disponibles)/Decimal(5)
 			disponibles_promedio = Decimal(disponibles_promedio.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
 			if parqueadero.disponibles > disponibles_promedio:
