@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.db import models
 
 # Create your models here.
@@ -13,6 +14,16 @@ class Parqueadero(models.Model):
 	facultad = models.ForeignKey(Facultad, null=True)
 	capacidad = models.IntegerField(null=True)
 	disponibles = models.IntegerField(null=True)
+
+	@classmethod
+	def actualizarDisponibilidadParqueadero(cls, parqueo_id):
+		#Se actualiza la disponibilidad del parqueadero
+		parqueadero = Parqueadero.objects.get(pk=parqueo_id)
+		parqueos_ocupados = RegistroParqueo.objects.filter(estado='A')
+		num_parqueos_ocupados = parqueos_ocupados.count()
+		disponibles = parqueadero.capacidad - num_parqueos_ocupados
+		parqueadero.disponibles = disponibles
+		parqueadero.save()
 	
 	def __str__(self):
 		return self.nombre
