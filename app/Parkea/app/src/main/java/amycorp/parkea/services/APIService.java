@@ -9,9 +9,9 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    //final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
+    final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
     //final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
-    final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
+    //final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
 
 
     @GET("validar_login/{correo}/{clave}")
