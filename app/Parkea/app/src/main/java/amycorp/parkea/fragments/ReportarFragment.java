@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import amycorp.parkea.Adapters.FacultadAdaptador;
+import amycorp.parkea.PrincipalActivity;
 import amycorp.parkea.R;
 import amycorp.parkea.models.Facultad;
 import amycorp.parkea.models.Global;
@@ -289,8 +290,15 @@ public class ReportarFragment extends Fragment {
 
                         //Create the intent that’ll fire when the user taps the notification//
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.androidauthority.com/"));
-                        PendingIntent pendingIntent = PendingIntent.getActivity(thiscontext, 0, intent, 0);
+                        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.androidauthority.com/"));
+                        //Fragment fragment = new NoticiasFragment();
+                        //Bundle args = new Bundle();
+                        //args.putString("tipo_noticia", "R");
+                        //fragment.setArguments(args);
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).commit();
+
+                        Intent principalIntent = new Intent(thiscontext, PrincipalActivity.class);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(thiscontext, 0, principalIntent, 0);
 
                         mBuilder.setContentIntent(pendingIntent);
 

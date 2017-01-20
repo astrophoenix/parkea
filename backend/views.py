@@ -21,7 +21,6 @@ def validar_login(request, correo, clave):
 
 
 def obtener_usuario(request, usuario_id):
-	print 'usu id: ' + str(usuario_id)
 	usuario = Persona.objects.get(pk=usuario_id)
 	data = {'nombre': usuario.nombre, 'apellido': usuario.apellido, 'correo':usuario.correo}
 	return HttpResponse(json.dumps(data), content_type='application/json')
