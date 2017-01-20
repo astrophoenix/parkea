@@ -22,7 +22,8 @@
         android:layout_alignParentStart="true"
         android:baselineAligned="false"
         android:layout_alignParentTop="true"
-        android:paddingBottom="45dp">
+        android:paddingBottom="45dp"
+        android:weightSum="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -134,27 +135,28 @@
         <TextView
             android:text="Rating por Reportar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/textView10"
             android:textSize="18sp"
             android:textStyle="normal|bold"
             android:textColor="@color/colorPrimaryDark"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.30"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="0.09"
+            android:paddingBottom="10dp" />
 
         <RatingBar
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/rtb_reportar"
             android:numStars="5"
             android:stepSize="0.1"
             android:isIndicator="true"
             android:clickable="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="48dp"
             android:progressBackgroundTint="@color/bootstrap_brand_danger"
             app:backgroundTint="@color/bootstrap_brand_danger"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="5dp" />
 
         <Button
             android:layout_width="match_parent"

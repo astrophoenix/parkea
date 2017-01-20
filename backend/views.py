@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import render
 from models import *
 from django.core import serializers
@@ -8,6 +9,7 @@ from django.db import transaction
 from datetime import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 from decimal import *
+import math
 
 def validar_login(request, correo, clave):
 	personas = Persona.objects.filter(correo=unquote(correo), clave=unquote(clave))
@@ -66,6 +68,7 @@ def registrar_parqueo_persona(request, parqueadero_id, placa, longitud, latitud,
 			reg_parqueo.latitud = latitud
 			reg_parqueo.estado = 'A'
 			reg_parqueo.save()
+			Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
 			estado = 1
 		except Exception as e:
 			pass
@@ -126,15 +129,17 @@ def actualizar_estado_parqueo_persona(request, parqueo_id):
 	
 	hoy = datetime.now()
 	reg_parqueo = RegistroParqueo.objects.get(pk=int(parqueo_id))
-	if reg_parqueo.estado == 'A':
+	if reg_parqueo.estado == 'A': #Activo
 		reg_parqueo.estado = 'I' #Marca la Salida
 		reg_parqueo.fecha_salida = hoy
 		reg_parqueo.hora_salida = hoy.time()
-	else:
-		reg_parqueo.estado = 'A' #Marca la Salida
+	else: #Inactivo
+		reg_parqueo.estado = 'A'
 		reg_parqueo.fecha_salida = None
 		reg_parqueo.hora_salida = None
 	reg_parqueo.save()
+
+	Parqueadero.actualizarDisponibilidadParqueadero(reg_parqueo.parqueadero_id)
 
 	data = {
 			"id": reg_parqueo.id, 
@@ -155,20 +160,42 @@ def actualizar_estado_parqueo_persona(request, parqueo_id):
 	return HttpResponse(data, content_type='application/json')
 
 def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, usuario_id):
-	reporte = ReportePersona()
-	reporte.parqueadero_id = parqueadero_id
-	reporte.num_parqueos_ocupados = num_parqueos_ocupados
-	reporte.persona_id = usuario_id
-	reporte.save()
-	estado = 1 #Guarda registro y no genera una recompensa
 	try:
-		reportes = ReportePersona.objects.filter(persona__id=usuario_id)
-		num_total_reportes = reportes.count()
+		#Guarda registro
+		reporte = ReportePersona()
+		reporte.parqueadero_id = parqueadero_id
+		reporte.num_parqueos_ocupados = num_parqueos_ocupados
+		reporte.persona_id = usuario_id
+		reporte.save()
+		estado = 1 #no genera una recompensa inicialmente
+
+		#Se cambia el porcentaje de disponibilidad del parqueadero de ser el caso
+		parqueadero = Parqueadero.objects.get(pk=parqueadero_id)
+
+		reportes_todos = ReportePersona.objects.all().order_by('-id')
+		num_total_reportes_todos = reportes_todos.count()
+
+		num_ultimos_reportados = num_total_reportes_todos % 5
+		cociente = num_total_reportes / 5
+		if cociente > 0 and num_ultimos_reportados == 0 :
+			total_disponibles = 0
+			for reporte in reportes_todos[:5]: # los 5 ultimos elementos
+				total_disponibles += reporte.disponibles
+			disponibles_promedio = Decimal(total_disponibles)/Decimal(5)
+			disponibles_promedio = Decimal(disponibles_promedio.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
+			if parqueadero.disponibles > disponibles_promedio:
+				parqueadero.disponibles = int(math.ceil(disponibles_promedio))
+			if parqueadero.disponibles < disponibles_promedio:
+				parqueadero.disponibles = int(math.floor(disponibles_promedio))
+			parqueadero.save()
+
+		# Para generar notificación al usuario de ser el caso que gane recompensa
+		reportes_usuario = reportes_todos.filter(persona__id=usuario_id)
+		num_total_reportes = reportes_usuario.count()
 		rating_actual = num_total_reportes % 5
 		cociente = num_total_reportes / 5
 		if cociente > 0 and rating_actual == 0 :
 			#Se busca el porcentaje disponible de parqueos en un parqueo determinado
-			parqueadero = Parqueadero.objects.get(pk=parqueadero_id)
 			facc = Decimal(parqueadero.disponibles)/Decimal(parqueadero.capacidad) * 100
 			porcentaje_disponibles = Decimal(facc.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
 			
@@ -178,7 +205,8 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 			noticia.descripcion = 'Parqueos disponibles: ' + str(porcentaje_disponibles) + '%'
 			noticia.usuario_id = usuario_id
 			noticia.save()
-			estado = 2 #Guarda registro y genera una recompensa a notificar
+			estado = 2 #genera una recompensa a notificar
+
 	except Exception as e:
 		print str(e)
 
