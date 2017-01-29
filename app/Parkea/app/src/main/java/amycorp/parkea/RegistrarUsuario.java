@@ -131,11 +131,12 @@ public class RegistrarUsuario extends AppCompatActivity {
                         String returnedResponse = mLoginObject.estado;
                         //showProgress(false);
                         if(returnedResponse.trim().equals("0")){
-                            Toast.makeText(RegistrarUsuario.this, "No se ha podido registrar el usuario, ya existe", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrarUsuario.this, "No se ha podido registrar el usuario, ya existe", Toast.LENGTH_SHORT).show();
                         }else {
                             Global.usuario_id = Integer.valueOf(returnedResponse);
-                            Toast.makeText(RegistrarUsuario.this, "Registro de usuario Exitoso", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistrarUsuario.this, "Registro exitoso de usuario", Toast.LENGTH_SHORT).show();
                             Intent inicioIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
+                            inicioIntent.putExtra("from_login", "1");
                             startActivity(inicioIntent);
                             finish();
                         }
@@ -143,7 +144,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                     else {
                         //Log.e("Error Code", String.valueOf(response.code()));
                         //Log.e("Error Body", response.errorBody().toString());
-                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -152,7 +153,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                     //call.cancel();
                     //Log.d("ERROR1", t.getMessage());
                     //Log.i("ERROR2",t.getCause()+"");
-                    Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
                     //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
                 }
             });

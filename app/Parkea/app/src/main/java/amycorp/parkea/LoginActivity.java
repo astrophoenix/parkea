@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     String returnedResponse = resp.estado;
                     showProgress(false);
                     if(returnedResponse.trim().equals("0")){
-                        Toast.makeText(LoginActivity.this, "Usuario Incorrecto", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Usuario Incorrecto", Toast.LENGTH_SHORT).show();
                         mPasswordView.requestFocus();
                     }else {
                         Global.usuario_id = Integer.valueOf(returnedResponse);
@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 call.cancel();
                 //Log.d("ERROR1", t.getMessage());
                 //Log.i("ERROR2",t.getCause()+"");
-                Toast.makeText(LoginActivity.this, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
         });
     }
