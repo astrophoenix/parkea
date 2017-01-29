@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
+                android:hint="Placa"
                 android:id="@+id/txt_placa"
                 android:drawableLeft="@drawable/ic_carro_black_24dp"
                 android:paddingBottom="20dp" />
@@ -85,7 +86,7 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/txt_email"
-                android:hint="correo@mail.com"
+                android:hint="correo"
                 android:drawableLeft="@drawable/ic_mail_black_24dp"
                 android:paddingBottom="20dp" />
         </android.support.design.widget.TextInputLayout>
