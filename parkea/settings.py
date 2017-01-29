@@ -86,8 +86,16 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
 
+# LOCALE_ALL_CONFIG = 'en_US.UTF-8'
+# LOCALE_NUMERIC_CONFIG = 'en_US.UTF-8'
+ 
+# locale.setlocale(locale.LC_ALL,(LOCALE_ALL_CONFIG))
+# locale.setlocale(locale.LC_NUMERIC, LOCALE_NUMERIC_CONFIG)
+# locale.setlocale(locale.LC_MONETARY, LOCALE_NUMERIC_CONFIG)
+
+LANGUAGE_CODE = 'es_ec'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -95,6 +103,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+
 
 
 # Static files (CSS, JavaScript, Images)

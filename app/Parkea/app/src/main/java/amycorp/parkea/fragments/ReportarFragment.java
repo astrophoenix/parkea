@@ -268,66 +268,69 @@ public class ReportarFragment extends Fragment {
     }
 
     private void reportarParqueoPersona() {
+        txtParqueosOcupados.setError(null);
+        String parqueos_ocupados = txtParqueosOcupados.getText().toString();
+        if (!parqueos_ocupados.equals("")){
+            Integer num_parqueos_ocupados = Integer.valueOf(String.valueOf(parqueos_ocupados));
+            Parqueadero parqueadero = (Parqueadero)spinnerParqueaderos.getItemAtPosition(spinnerParqueaderos.getSelectedItemPosition());
+            Integer parqueadero_id = parqueadero.getId();
 
-        Integer num_parqueos_ocupados = Integer.valueOf(String.valueOf(txtParqueosOcupados.getText()));
-        Parqueadero parqueadero = (Parqueadero)spinnerParqueaderos.getItemAtPosition(spinnerParqueaderos.getSelectedItemPosition());
-        Integer parqueadero_id = parqueadero.getId();
+            APIService mApiService = Controller.getInterfaceService();
+            Call<RespuestaAPIServidor> mService = mApiService.registrarReporteParqueosAPI(parqueadero_id, num_parqueos_ocupados, Global.usuario_id);
 
-        APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.registrarReporteParqueosAPI(parqueadero_id, num_parqueos_ocupados, Global.usuario_id);
+            mService.enqueue(new Callback<RespuestaAPIServidor>() {
+                @Override
+                public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+                    if (response.isSuccessful()) {
+                        RespuestaAPIServidor r = response.body();
+                        String returnedResponse = r.estado;
+                        if(returnedResponse.trim().equals("1")) {
+                            Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
+                        }else if(returnedResponse.trim().equals("2")){
+                            Toast.makeText(thiscontext, "Registro Exitoso. Has ganado una recompensa!", Toast.LENGTH_LONG).show();
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(thiscontext);
 
-        mService.enqueue(new Callback<RespuestaAPIServidor>() {
-            @Override
-            public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
-                if (response.isSuccessful()) {
-                    RespuestaAPIServidor r = response.body();
-                    String returnedResponse = r.estado;
-                    if(returnedResponse.trim().equals("1")) {
-                        Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                    }else if(returnedResponse.trim().equals("2")){
-                        Toast.makeText(thiscontext, "Registro Exitoso. Has ganado una recompensa!!!", Toast.LENGTH_LONG).show();
-                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(thiscontext);
+                            //Create the intent that’ll fire when the user taps the notification//
 
-                        //Create the intent that’ll fire when the user taps the notification//
+                            Intent principalIntent = new Intent(thiscontext, PrincipalActivity.class);
+                            principalIntent.putExtra("menuFragment", "menu_recompensas");
 
-                        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.androidauthority.com/"));
-                        //Fragment fragment = new NoticiasFragment();
-                        //Bundle args = new Bundle();
-                        //args.putString("tipo_noticia", "R");
-                        //fragment.setArguments(args);
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).commit();
+                            PendingIntent pendingIntent = PendingIntent.getActivity(thiscontext, 0, principalIntent, 0);
 
-                        Intent principalIntent = new Intent(thiscontext, PrincipalActivity.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(thiscontext, 0, principalIntent, 0);
+                            mBuilder.setContentIntent(pendingIntent);
 
-                        mBuilder.setContentIntent(pendingIntent);
+                            mBuilder.setSmallIcon(R.drawable.ic_notificacion);
+                            mBuilder.setContentTitle("Premio");
+                            mBuilder.setContentText("Has ganado una recompensa en Parkea!");
+                            NotificationManager mNotificationManager = (NotificationManager) thiscontext.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(001, mBuilder.build());
+                        }else {
+                            Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
+                        }
 
-                        mBuilder.setSmallIcon(R.drawable.ic_notificacion);
-                        mBuilder.setContentTitle("Premio");
-                        mBuilder.setContentText("Has ganado una recompensa, gracias por reportar");
-                        NotificationManager mNotificationManager = (NotificationManager) thiscontext.getSystemService(Context.NOTIFICATION_SERVICE);
-                        mNotificationManager.notify(001, mBuilder.build());
-                    }else {
-                        Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
+                    } else {
+                        //Log.e("Error Code", String.valueOf(response.code()));
+                        //Log.e("Error Body", response.errorBody().toString());
+                        Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                     }
-
-                } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
-            }
+                @Override
+                public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                    //call.cancel();
+                    //Log.d("ERROR1", t.getMessage());
+                    //Log.i("ERROR2", t.getCause() + "");
+                    Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                }
 
 
-        });
+            });
+        }else{
+            txtParqueosOcupados.setError("# Disponibles requerido");
+            txtParqueosOcupados.requestFocus();
+
+        }
+
     }
 
 

@@ -33,6 +33,7 @@ import java.util.List;
 import amycorp.parkea.services.APIService;
 import amycorp.parkea.services.Controller;
 import amycorp.parkea.models.*;
+import amycorp.parkea.services.DemonioGeo;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -167,6 +169,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }else {
                         Global.usuario_id = Integer.valueOf(returnedResponse);
                         Intent inicioIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
+                        inicioIntent.putExtra("from_login", "1");
                         startActivity(inicioIntent);
                     }
                 }

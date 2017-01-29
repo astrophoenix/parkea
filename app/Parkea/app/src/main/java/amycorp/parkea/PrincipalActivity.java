@@ -41,6 +41,7 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import java.util.List;
 
 import amycorp.parkea.fragments.ConsultarFragment;
+import amycorp.parkea.fragments.MapaParqueosFragment;
 import amycorp.parkea.fragments.NoticiasFragment;
 import amycorp.parkea.fragments.ParqueaderosFacultadFragment;
 import amycorp.parkea.fragments.ParqueoPersonaFragment;
@@ -52,6 +53,7 @@ import amycorp.parkea.models.RespuestaAPIServidor;
 import amycorp.parkea.models.Usuario;
 import amycorp.parkea.services.APIService;
 import amycorp.parkea.services.Controller;
+import amycorp.parkea.services.DemonioGeo;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,7 +66,8 @@ public class PrincipalActivity extends AppCompatActivity
         NoticiasFragment.OnFragmentInteractionListener,
         ReportarFragment.OnFragmentInteractionListener,
         ParqueoPersonaFragment.OnFragmentInteractionListener,
-        ParqueaderosFacultadFragment.OnFragmentInteractionListener
+        ParqueaderosFacultadFragment.OnFragmentInteractionListener,
+        MapaParqueosFragment.OnFragmentInteractionListener
         {
 
     private TextView lblnombres_apellido;
@@ -116,7 +119,30 @@ public class PrincipalActivity extends AppCompatActivity
         txtPlaca = (EditText) findViewById(R.id.txt_placa);
         ratingReporte = (RatingBar) findViewById(R.id.rtb_reportar);
 
-        //ratingReporte.setRating(Float.parseFloat("3.0"));
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String menuFragment = getIntent().getStringExtra("menuFragment");
+            Log.e("menuFRag", String.valueOf(menuFragment));
+            if(menuFragment != null && menuFragment.equals("menu_recompensas"))
+            {
+                Fragment fragment = new NoticiasFragment();
+                Bundle args = new Bundle();
+                args.putString("tipo_noticia", "R");
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).commit();
+                getSupportActionBar().setTitle("Recompensas");
+
+
+            }
+
+            String from_login = getIntent().getStringExtra("from_login");
+            if (from_login != null && from_login.equals("1"))
+            {
+                startService(new Intent(getApplicationContext(), DemonioGeo.class));
+            }
+        }
+
+
         obtenerPlacasXPersona(Global.usuario_id);
         obtenerDatosUsuario(Global.usuario_id);
         obtenerRatingReportesUsuario(Global.usuario_id);
@@ -125,14 +151,11 @@ public class PrincipalActivity extends AppCompatActivity
         btnAgregarPlaca.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String txt_placa = txtPlaca.getText().toString();
-                if(!txt_placa.equals(""))
-                    agregarPlacaUsuario(Global.usuario_id, txt_placa);
-                else
-                    Toast.makeText(getApplicationContext(), "Ingrese una placa.", Toast.LENGTH_LONG).show();
+                agregarPlacaUsuario(Global.usuario_id, txt_placa);
             }
         });
 
-
+        //Validación de Placa
         final MaskedTextChangedListener listener = new MaskedTextChangedListener("[AAA]-[0000]", true, txtPlaca, null, null);
         txtPlaca.addTextChangedListener(listener);
         txtPlaca.setOnFocusChangeListener(listener);
@@ -182,7 +205,8 @@ public class PrincipalActivity extends AppCompatActivity
         });
     }
 
-    private void obtenerPlacasXPersona(Integer persona_id) {
+    private void obtenerPlacasXPersona(Integer persona_id)
+    {
         APIService mApiService = Controller.getInterfaceService();
         Call<List<Placa>> mService = mApiService.obtenerPlacasXPersonaAPI(persona_id);
         mService.enqueue(new Callback<List<Placa>>() {
@@ -236,38 +260,56 @@ public class PrincipalActivity extends AppCompatActivity
 
     private void agregarPlacaUsuario(Integer usuario_id, String placa)
     {
-        APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.registrarPlacaUsuarioAPI(usuario_id, placa);
+        Boolean error = false;
+        String msj_error = "";
 
-        mService.enqueue(new Callback<RespuestaAPIServidor>() {
-            @Override
-            public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+        txtPlaca.setError(null);
+        if (placa.equals("")){
+            error = true;
+            msj_error = "Placa, no puede ser vacía";
+        }else if (placa.length() < 7){
+            error = true;
+            msj_error = "Placa, formato incorrecta";
+        }
 
-                //Respuesta Exitosa del Servidor
-                if(response.isSuccessful())
-                {
-                    RespuestaAPIServidor r = response.body();
-                    String returnedResponse = r.estado;
-                    if(returnedResponse.trim().equals("1")){
-                        Toast.makeText(getApplicationContext(), "Placa registada Exitosamente.", Toast.LENGTH_LONG).show();
-                        obtenerPlacasXPersona(Global.usuario_id);
-                        txtPlaca.setText("");
-                    }else if (returnedResponse.trim().equals("-1")) {
-                        Toast.makeText(getApplicationContext(), "Placa ya existe para esta persona.", Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Placa No registada.", Toast.LENGTH_LONG).show();
+        if (!error){
+            APIService mApiService = Controller.getInterfaceService();
+            Call<RespuestaAPIServidor> mService = mApiService.registrarPlacaUsuarioAPI(usuario_id, placa);
+
+            mService.enqueue(new Callback<RespuestaAPIServidor>() {
+                @Override
+                public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+
+                    //Respuesta Exitosa del Servidor
+                    if(response.isSuccessful())
+                    {
+                        RespuestaAPIServidor r = response.body();
+                        String returnedResponse = r.estado;
+                        if(returnedResponse.trim().equals("1")){
+                            Toast.makeText(getApplicationContext(), "Placa registada Exitosamente.", Toast.LENGTH_LONG).show();
+                            obtenerPlacasXPersona(Global.usuario_id);
+                            txtPlaca.setText("");
+                        }else if (returnedResponse.trim().equals("-1")) {
+                            Toast.makeText(getApplicationContext(), "Placa ya existe para esta persona.", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Placa No registada.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                     }
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }else{
+            txtPlaca.setError(msj_error);
+            txtPlaca.requestFocus();
+        }
+
     }
 
     private void obtenerRatingReportesUsuario(Integer usuario_id)
@@ -317,7 +359,7 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.principal, menu);
+        //getMenuInflater().inflate(R.menu.principal, menu);
         return true;
     }
 
@@ -372,15 +414,23 @@ public class PrincipalActivity extends AppCompatActivity
             args.putString("tipo_noticia", "R");
             fragment.setArguments(args);
             FragmentTransaction = true;
+        } else if (id == R.id.nav_mapa_espol) {
+            fragment = new MapaParqueosFragment();
+            FragmentTransaction = true;
         } else if (id == R.id.nav_salir) {
+            stopService(new Intent(getApplicationContext(), DemonioGeo.class));
             FragmentTransaction = false;
             Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
             finish();
+            System.exit(0);
         }
 
         if (FragmentTransaction){
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).addToBackStack(null).commit();
+            btnAgregarPlaca.setOnClickListener(null);
+            bntHistorialParqueos.setOnClickListener(null);
         }
         item.setChecked(true);
         getSupportActionBar().setTitle(item.getTitle());
@@ -393,5 +443,11 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(getApplicationContext(), DemonioGeo.class));
     }
 }

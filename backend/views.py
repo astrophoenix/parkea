@@ -235,3 +235,41 @@ def obtener_rating_usuario(request, usuario_id):
 	data = {'estado': rating_actual}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
+def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
+	"""
+		Comprueba si un punto se encuentra dentro de un polígono
+		poligono - Lista de tuplas con los puntos que forman los vértices [(x1, y1), (x2, y2), ..., (xn, yn)]
+		x: latitud, y: longitud, poligono : arreglo de puntos del area mapa
+	"""
+	#Ejemplos San Marino - Area
+	# poligono = [(-2.169498,-79.898067), (-2.169876,-79.898641), (-2.168823,-79.898365), (-2.169029,-79.897697)]
+	#Punto Dentro del San Marino
+	#x = -2.169496
+	#y = -79.898451
+
+	#Punto Fuera del San Marino
+	#x = -2.169271
+	#y = -79.897174
+	
+	x = latitud
+	y = longitud
+	poligono = [
+			(-2.144075, -79.967335), #A
+			(-2.143985, -79.967079), #B
+			(-2.144038, -79.966695), #C
+			(-2.144271, -79.966572), #D
+			(-2.144641, -79.966769), #E
+			(-2.14458, -79.967273), #F
+		]
+	i = 0
+	j = len(poligono) - 1
+	en_area = 0
+	for i in range(len(poligono)):
+		if (poligono[i][1] < y and poligono[j][1] >= y) or (poligono[j][1] < y and poligono[i][1] >= y):
+			if poligono[i][0] + (y - poligono[i][1]) / (poligono[j][1] - poligono[i][1]) * (poligono[j][0] - poligono[i][0]) < x:
+				en_area = 1
+		j = i    
+	# if en_area:
+	# 	RegistroParqueo.objects.filter(usuario__id=usuario_id, estado='A').update(estado='I')
+	data = {'estado': en_area}
+	return HttpResponse(json.dumps(data), content_type='application/json')

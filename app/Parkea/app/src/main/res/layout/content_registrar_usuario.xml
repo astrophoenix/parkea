@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:ems="10"
             android:id="@+id/txt_nombre"
             android:hint="Nombre"
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:ems="10"
             android:id="@+id/txt_apellido"
             android:hint="Apellido"
@@ -49,7 +51,6 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/txt_placa"
-            android:hint="Placa (###-####)"
             android:drawableLeft="@drawable/ic_carro_black_24dp"
             android:paddingBottom="20dp" />
 

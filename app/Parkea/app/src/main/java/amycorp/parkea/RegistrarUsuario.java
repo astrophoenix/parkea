@@ -70,8 +70,9 @@ public class RegistrarUsuario extends AppCompatActivity {
 
 
         // Reset errors.
-        //mEmailView.setError(null);
-        //mPasswordView.setError(null);
+        txt_placa.setError(null);
+        txt_email.setError(null);
+        txt_password.setError(null);
 
         // Store values at the time of the login attempt.
         String nombre = txt_nombre.getText().toString();
@@ -84,36 +85,42 @@ public class RegistrarUsuario extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-//            mPasswordView.setError(getString(R.string.error_invalid_password));
-//            focusView = mPasswordView;
-//            cancel = true;
-//        }
+        if (password.isEmpty()) {
+            txt_password.setError(getString(R.string.error_incorrect_password));
+            focusView = txt_password;
+            cancel = true;
+        }
+
+        if (password.length() < 4) {
+            txt_password.setError(getString(R.string.error_invalid_password));
+            focusView = txt_password;
+            cancel = true;
+        }
+
+        if (placa.length() < 7) {
+            txt_placa.setError("Placa Incorrecta");
+            focusView = txt_placa;
+            cancel = true;
+        }
+
 
         // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
+        if (email.isEmpty()) {
+            txt_email.setError(getString(R.string.error_field_required));
+            focusView = txt_email;
+            cancel = true;
+        } else if (!email.contains("@")) {
+            txt_email.setError(getString(R.string.error_invalid_email));
+            focusView = txt_email;
+            cancel = true;
+        }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
 
-            ////****
             APIService mApiService = Controller.getInterfaceService();
-
-
             Call<RespuestaAPIServidor> mService = mApiService.registrarUsuarioAPI(nombre, apellido, placa, email, password);
-
-
             mService.enqueue(new Callback<RespuestaAPIServidor>() {
                 @Override
                 public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
@@ -149,7 +156,6 @@ public class RegistrarUsuario extends AppCompatActivity {
                     //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
                 }
             });
-            ////****
 
         }
     }
