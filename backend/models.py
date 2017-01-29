@@ -64,7 +64,7 @@ class RegistroParqueo(models.Model):
 	estado = models.CharField(max_length=2, null=True)
 
 	def __str__(self):
-		return self.parqueadero.nombre + ' | ' + self.placa
+		return self.parqueadero.nombre + ' | ' + self.placa + '|' + self.estado
 	
 class ReportePersona(models.Model):
 	parqueadero = models.ForeignKey(Parqueadero, null=True)

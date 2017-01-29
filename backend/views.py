@@ -253,6 +253,8 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 	
 	x = latitud
 	y = longitud
+
+	# Fiec - Espol Área
 	poligono = [
 			(-2.144075, -79.967335), #A
 			(-2.143985, -79.967079), #B
@@ -269,7 +271,11 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 			if poligono[i][0] + (y - poligono[i][1]) / (poligono[j][1] - poligono[i][1]) * (poligono[j][0] - poligono[i][0]) < x:
 				en_area = 1
 		j = i    
-	# if en_area:
-	# 	RegistroParqueo.objects.filter(usuario__id=usuario_id, estado='A').update(estado='I')
+	if en_area == 0:
+		parqueadero_id = 1 #Parqueo Fiec
+		registros_parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
+		registros_parqueos_abiertos.update(estado='I')
+		Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
+
 	data = {'estado': en_area}
 	return HttpResponse(json.dumps(data), content_type='application/json')
