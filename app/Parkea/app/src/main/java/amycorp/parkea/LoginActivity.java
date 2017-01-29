@@ -118,11 +118,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // verfica si la clave es correcta
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password) && !password.equals("")) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
+
+        if (password.isEmpty()) {
+            mPasswordView.setError(getString(R.string.error_incorrect_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
 
         // verifica si el correco es correcto
         if (TextUtils.isEmpty(email)) {

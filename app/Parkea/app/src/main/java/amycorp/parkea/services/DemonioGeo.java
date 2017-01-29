@@ -92,9 +92,6 @@ public class DemonioGeo extends Service {
             Log.d("LON", String.valueOf(longitud));
             Log.d("LAT", String.valueOf(latitud));
 
-
-
-
             Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueadero(Global.usuario_id, longitud, latitud);
             mService.enqueue(new Callback<RespuestaAPIServidor>() {
                 @Override

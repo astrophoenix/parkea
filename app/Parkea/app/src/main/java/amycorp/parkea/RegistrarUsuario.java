@@ -2,6 +2,7 @@ package amycorp.parkea;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -48,10 +49,6 @@ public class RegistrarUsuario extends AppCompatActivity {
         txt_placa.addTextChangedListener(listener);
         txt_placa.setOnFocusChangeListener(listener);
 
-
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,13 +65,23 @@ public class RegistrarUsuario extends AppCompatActivity {
 
     private void guardarNuevoUsuario() {
 
+        TextInputLayout txtobj1= null;
+        txtobj1 = (TextInputLayout) txt_nombre.getParent();
+        txtobj1.setError(null);
 
-        // Reset errors.
-        txt_placa.setError(null);
-        txt_email.setError(null);
-        txt_password.setError(null);
+        txtobj1 = (TextInputLayout) txt_apellido.getParent();
+        txtobj1.setError(null);
 
-        // Store values at the time of the login attempt.
+        txtobj1 = (TextInputLayout) txt_placa.getParent();
+        txtobj1.setError(null);
+
+        txtobj1 = (TextInputLayout) txt_email.getParent();
+        txtobj1.setError(null);
+
+        txtobj1 = (TextInputLayout) txt_password.getParent();
+        txtobj1.setError(null);
+
+
         String nombre = txt_nombre.getText().toString();
         String apellido = txt_apellido.getText().toString();
         String placa = txt_placa.getText().toString();
@@ -84,34 +91,47 @@ public class RegistrarUsuario extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (password.isEmpty()) {
-            txt_password.setError(getString(R.string.error_incorrect_password));
-            focusView = txt_password;
+        if (nombre.isEmpty()) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_nombre.getParent();
+            txtobj.setError(getString(R.string.error_field_required));
+            focusView = txtobj;
             cancel = true;
-        }
-
-        if (password.length() < 4) {
-            txt_password.setError(getString(R.string.error_invalid_password));
-            focusView = txt_password;
+        }else if (apellido.isEmpty()) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_apellido.getParent();
+            txtobj.setError(getString(R.string.error_field_required));
+            focusView = txtobj;
             cancel = true;
-        }
-
-        if (placa.length() < 7) {
-            txt_placa.setError("Placa Incorrecta");
-            focusView = txt_placa;
+        }else if (placa.length() < 7) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_placa.getParent();
+            txtobj.setError("Placa Incorrecta");
+            focusView = txtobj;
             cancel = true;
-        }
-
-
-        // Check for a valid email address.
-        if (email.isEmpty()) {
-            txt_email.setError(getString(R.string.error_field_required));
-            focusView = txt_email;
+        }else if (email.isEmpty()) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_email.getParent();
+            txtobj.setError(getString(R.string.error_field_required));
+            focusView = txtobj;
             cancel = true;
         } else if (!email.contains("@")) {
-            txt_email.setError(getString(R.string.error_invalid_email));
-            focusView = txt_email;
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_email.getParent();
+            txtobj.setError(getString(R.string.error_invalid_email));
+            focusView = txtobj;
+            cancel = true;
+        }else if (password.isEmpty()) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_password.getParent();
+            txtobj.setError(getString(R.string.error_incorrect_password));
+            focusView = txtobj;
+            cancel = true;
+        }else if (password.length() < 4) {
+            focusView = null;
+            TextInputLayout txtobj = (TextInputLayout) txt_password.getParent();
+            txtobj.setError(getString(R.string.error_invalid_password));
+            focusView = txtobj;
             cancel = true;
         }
 
