@@ -270,6 +270,8 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 		(-2.154851, -79.581512), #B
 		(-2.155813, -79.581402), #C
 		(-2.155655, -79.581099), #D
+		(-2.155429, -79.581608), #E
+		(-2.155301, -79.581276), #F
 	]
 	
 	i = 0
