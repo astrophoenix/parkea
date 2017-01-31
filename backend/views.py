@@ -244,12 +244,12 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 	#Ejemplos San Marino - Area
 	poligono = [(-2.169498,-79.898067), (-2.169876,-79.898641), (-2.168823,-79.898365), (-2.169029,-79.897697)]
 	#Punto Dentro del San Marino
-	x = -2.169496
-	y = -79.898451
+	# x = -2.169496
+	# y = -79.898451
 
 	#Punto Fuera del San Marino
-	#x = -2.169271
-	#y = -79.897174
+	x = -2.169271
+	y = -79.897174
 	
 	#x = latitud
 	#y = longitud
