@@ -242,17 +242,17 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 		x: latitud, y: longitud, poligono : arreglo de puntos del area mapa
 	"""
 	#Ejemplos San Marino - Area
-	# poligono = [(-2.169498,-79.898067), (-2.169876,-79.898641), (-2.168823,-79.898365), (-2.169029,-79.897697)]
+	poligono = [(-2.169498,-79.898067), (-2.169876,-79.898641), (-2.168823,-79.898365), (-2.169029,-79.897697)]
 	#Punto Dentro del San Marino
-	#x = -2.169496
-	#y = -79.898451
+	x = -2.169496
+	y = -79.898451
 
 	#Punto Fuera del San Marino
 	#x = -2.169271
 	#y = -79.897174
 	
-	x = latitud
-	y = longitud
+	#x = latitud
+	#y = longitud
 
 	# Fiec - Espol Área
 	# poligono = [
@@ -265,14 +265,18 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 	# 		(-2.14458, -79.967273), #F
 	# 	]
 
-	poligono = [
-		(-2.155011, -79.581836), #A
-		(-2.154851, -79.581512), #B
-		(-2.155813, -79.581402), #C
-		(-2.155655, -79.581099), #D
-		(-2.155429, -79.581608), #E
-		(-2.155301, -79.581276), #F
-	]
+	# poligono = [
+	# 	(-2.155011, -79.581836), #A
+	# 	(-2.154851, -79.581512), #B
+	# 	(-2.155813, -79.581402), #C
+	# 	(-2.155655, -79.581099), #D
+	# 	(-2.155429, -79.581608), #E
+	# 	(-2.155301, -79.581276), #F
+	# ]
+
+	# -2.1553664, -79.5815181
+	# -2.1553664, -79.5815181
+	# 48 user
 	
 	i = 0
 	j = len(poligono) - 1
