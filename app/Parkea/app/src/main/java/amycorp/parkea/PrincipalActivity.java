@@ -406,7 +406,7 @@ public class PrincipalActivity extends AppCompatActivity
             args.putString("tipo_noticia", "E");
             fragment.setArguments(args);
         } else if (id == R.id.nav_encuesta) {
-            Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.stackoverflow.com/"));
+            Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("https://goo.gl/forms/1q47PkX9Jcjy5U5d2"));
             startActivity(viewIntent);
             FragmentTransaction = false;
         } else if (id == R.id.nav_recompensa) {
@@ -431,6 +431,8 @@ public class PrincipalActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).addToBackStack(null).commit();
             btnAgregarPlaca.setOnClickListener(null);
             bntHistorialParqueos.setOnClickListener(null);
+            spinnerPlacas.setEnabled(false);
+            spinnerPlacas.setClickable(false);
         }
         item.setChecked(true);
         getSupportActionBar().setTitle(item.getTitle());
