@@ -18,7 +18,9 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.46">
+        android:layout_weight="0.46"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
         android:orientation="vertical"
@@ -40,14 +42,14 @@
                 android:id="@+id/txt_nombre"
                 android:hint="Nombre"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:paddingBottom="20dp"
                 android:layout_marginTop="20dp" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,14 +58,14 @@
                 android:ems="10"
                 android:id="@+id/txt_apellido"
                 android:hint="Apellido"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:paddingBottom="20dp" />
+                android:drawableLeft="@drawable/ic_person_black_24dp" />
         </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -72,14 +74,15 @@
                 android:ems="10"
                 android:hint="Placa"
                 android:id="@+id/txt_placa"
-                android:drawableLeft="@drawable/ic_carro_black_24dp"
-                android:paddingBottom="20dp" />
+                android:drawableLeft="@drawable/ic_carro_black_24dp" />
         </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,14 +90,14 @@
                 android:ems="10"
                 android:id="@+id/txt_email"
                 android:hint="correo"
-                android:drawableLeft="@drawable/ic_mail_black_24dp"
-                android:paddingBottom="20dp" />
+                android:drawableLeft="@drawable/ic_mail_black_24dp" />
         </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:layout_width="match_parent"
@@ -103,8 +106,7 @@
                 android:ems="10"
                 android:id="@+id/txt_password"
                 android:hint="clave"
-                android:drawableLeft="@drawable/ic_https_black_24dp"
-                android:paddingBottom="20dp" />
+                android:drawableLeft="@drawable/ic_https_black_24dp" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -112,9 +114,9 @@
         <Button
             android:text="Guardar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="68dp"
             android:id="@+id/btn_guardar_usuario"
-            android:background="@android:color/holo_orange_light"
+            android:theme="@style/style_button_guardar_usuario"
             android:layout_marginTop="26dp"
             android:layout_marginBottom="26dp" />
 

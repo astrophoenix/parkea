@@ -2,6 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5fc2a83-ff84-4084-92dd-4cb4711a8b15" name="Default" comment="Avances Preliminar Parkea">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable-xxhdpi/background_login.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable-xxhdpi/nav_header_parkea.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_button_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/DemonioGeo.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/DemonioGeo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/models/Global.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/models/Global.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueoPersonaAdaptador.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueoPersonaAdaptador.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/PrincipalActivity.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/PrincipalActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/RegistrarFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/RegistrarFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/RegistrarUsuario.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/RegistrarUsuario.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_principal.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_principal.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_registrar_usuario.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_registrar_usuario.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_spinner_background.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_spinner_background.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/models.py" afterPath="$PROJECT_DIR$/backend/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/nav_header_principal.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/nav_header_principal.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parkea/settings.py" afterPath="$PROJECT_DIR$/parkea/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/urls.py" afterPath="$PROJECT_DIR$/backend/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views.py" afterPath="$PROJECT_DIR$/backend/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="parkea.iws" />
@@ -26,11 +47,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53554505" vertical-offset="711" max-vertical-offset="1365">
-              <caret line="70" column="58" selection-start-line="70" selection-start-column="58" selection-end-line="70" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="831" max-vertical-offset="1485">
+              <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/parkea/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.85542166" vertical-offset="1235" max-vertical-offset="1830">
+              <caret line="106" column="31" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -50,13 +81,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/backend/models.py" />
+        <option value="$PROJECT_DIR$/parkea/settings.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="33" />
+    <option name="x" value="30" />
     <option name="y" value="23" />
-    <option name="width" value="1247" />
+    <option name="width" value="1250" />
     <option name="height" value="777" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -82,7 +114,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -91,8 +122,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parkea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parkea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parkea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parkea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parkea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="AndroidView" />
@@ -101,6 +157,11 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings />
+    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -242,13 +303,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="33" y="23" width="1247" height="777" extended-state="6" />
+    <frame x="30" y="23" width="1250" height="777" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24796085" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24735558" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -263,7 +325,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -292,13 +353,22 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Avances Preliminar Parkea" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avances Preliminar Parkea" />
+    <MESSAGE value="Avances Parkea GPS, y ajustes generales" />
+    <option name="LAST_COMMIT_MESSAGE" value="Avances Parkea GPS, y ajustes generales" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/backend/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1365">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/backend/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1365">
@@ -341,8 +411,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53554505" vertical-offset="711" max-vertical-offset="1365">
-          <caret line="70" column="58" selection-start-line="70" selection-start-column="58" selection-end-line="70" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="831" max-vertical-offset="1485">
+          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parkea/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.85542166" vertical-offset="1235" max-vertical-offset="1830">
+          <caret line="106" column="31" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
           <folding />
         </state>
       </provider>

@@ -60,8 +60,8 @@ public class RegistrarFragment extends Fragment {
     private Spinner spinnerParqueaderos;
     private Spinner spinnerPlacas;
     private Button btnRegistrar;
-    private Double latitude = Double.valueOf(0);
-    private Double longitude = Double.valueOf(0);
+    //private Double latitude = Double.valueOf(0);
+    //private Double longitude = Double.valueOf(0);
     Integer FACULTAD_ID = 0;
     Integer PARQUEADERO_ID = 0;
     Context thiscontext;
@@ -127,20 +127,13 @@ public class RegistrarFragment extends Fragment {
         spinnerParqueaderos.setEnabled(false);
         spinnerParqueaderos.setClickable(false);
 
-        //Obtener Localización GPS
-        LocationManager lm = (LocationManager)thiscontext.getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (location != null){
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-        }else{
-            Toast.makeText(thiscontext, "Debe activar el gps", Toast.LENGTH_LONG).show();
-        }
-
-
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                registrarParqueoPersona();
+                if(Global.en_area){
+                    registrarParqueoPersona();
+                }else{
+                    Toast.makeText(thiscontext, "No puede registrarse fuera del parqueadero.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -350,8 +343,9 @@ public class RegistrarFragment extends Fragment {
 
         //Log.e("longitude", String.valueOf(longitude));
         //Log.e("latitude", String.valueOf(latitude));
+
         APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, longitude, latitude, Global.usuario_id);
+        Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, Global.longitud, Global.latitud, Global.usuario_id);
 
         mService.enqueue(new Callback<RespuestaAPIServidor>() {
             @Override
@@ -363,6 +357,8 @@ public class RegistrarFragment extends Fragment {
                         Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_LONG).show();
                         Intent inicioIntent = new Intent(thiscontext, PrincipalActivity.class);
                         startActivity(inicioIntent);
+                    }else if(returnedResponse.trim().equals("-1")){
+                        Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
                     }

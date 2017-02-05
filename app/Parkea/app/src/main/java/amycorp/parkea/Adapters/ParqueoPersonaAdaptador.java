@@ -115,15 +115,20 @@ public class ParqueoPersonaAdaptador extends RecyclerView.Adapter<ParqueoPersona
         else
             holder.estado_parqueo.setImageResource(R.drawable.padlock);
 
-        holder.estado_parqueo.setOnClickListener(new View.OnClickListener() {
+        /*holder.estado_parqueo.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                thiscontext = v.getContext();
-                Integer parqueo_id = list_parqueo_persona.get(position).getId();
-                actualizarParqueoPersona(parqueo_id, holder);
+                if(Global.en_area){
+                    thiscontext = v.getContext();
+                    Integer parqueo_id = list_parqueo_persona.get(position).getId();
+                    actualizarParqueoPersona(parqueo_id, holder);
+                }else{
+                    Toast.makeText(thiscontext, String.valueOf("No puede actualizar registro dentro del parqueadero."), Toast.LENGTH_LONG).show();
+                }
+
             }
-        });
+        });*/
 
     }
 

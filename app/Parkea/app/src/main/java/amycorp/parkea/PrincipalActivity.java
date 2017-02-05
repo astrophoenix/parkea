@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -286,13 +287,21 @@ public class PrincipalActivity extends AppCompatActivity
                         RespuestaAPIServidor r = response.body();
                         String returnedResponse = r.estado;
                         if(returnedResponse.trim().equals("1")){
-                            Toast.makeText(getApplicationContext(), "Placa registada Exitosamente.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Placa registada Exitosamente.", Toast.LENGTH_SHORT).show();
                             obtenerPlacasXPersona(Global.usuario_id);
                             txtPlaca.setText("");
                         }else if (returnedResponse.trim().equals("-1")) {
-                            Toast.makeText(getApplicationContext(), "Placa ya existe para esta persona.", Toast.LENGTH_LONG).show();
+                            txtPlaca.setError("Placa ya existe para esta persona.");
+                            txtPlaca.requestFocus();
+                            //Toast.makeText(getApplicationContext(), "Placa ya existe para esta persona.", Toast.LENGTH_SHORT).show();
+                        }else if (returnedResponse.trim().equals("-2")){
+                            txtPlaca.setError("Placa no registrada en ATM.");
+                            txtPlaca.requestFocus();
+                            //Toast.makeText(getApplicationContext(), "Placa no registrada en ATM.", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(getApplicationContext(), "Placa No registada.", Toast.LENGTH_LONG).show();
+                            txtPlaca.setError("Placa No registada.");
+                            txtPlaca.requestFocus();
+                            //Toast.makeText(getApplicationContext(), "Placa No registada.", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else {
@@ -348,11 +357,19 @@ public class PrincipalActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+
+            finish();
         }
     }
 
@@ -395,11 +412,20 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = new ConsultarFragment();
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
-            fragment = new RegistrarFragment();
-            FragmentTransaction = true;
+            if (Global.en_area){
+                fragment = new RegistrarFragment();
+                FragmentTransaction = true;
+            }else{
+                Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero"), Toast.LENGTH_LONG).show();
+            }
         } else if (id == R.id.nav_reportar) {
-            fragment = new ReportarFragment();
-            FragmentTransaction = true;
+            if (Global.en_area){
+                fragment = new ReportarFragment();
+                FragmentTransaction = true;
+            }else{
+                Toast.makeText(getApplicationContext(), String.valueOf("No puede reportar fuera del parqueadero"), Toast.LENGTH_LONG).show();
+            }
+
         } else if (id == R.id.nav_eventos) {
             fragment = new NoticiasFragment();
             FragmentTransaction = true;

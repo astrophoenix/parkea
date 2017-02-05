@@ -1,6 +1,6 @@
 # coding=utf-8
 from django.db import models
-
+import requests 
 # Create your models here.
 
 class Facultad(models.Model):
@@ -46,6 +46,14 @@ class Persona(models.Model):
 class PersonaPlaca(models.Model):
 	persona = models.ForeignKey(Persona)
 	placa = models.CharField(max_length=13, null=True)
+
+	@classmethod
+	def validar_placa(cls, placa):
+		# GHR0263
+		placa = placa.replace("-", "")
+		url = "http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_consulta_persona.jsp?ps_tipo_identificacion=PLA&ps_identificacion="+str(placa)
+		data = requests.get(url).json()
+		return data['mensaje']
 
 	def __str__(self):
 		return self.placa

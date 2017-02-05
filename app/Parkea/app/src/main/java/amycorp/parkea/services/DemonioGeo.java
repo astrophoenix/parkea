@@ -52,8 +52,8 @@ public class DemonioGeo extends Service {
 
     private class Geolocalizacion extends AsyncTask<String, String, String> {
 
-        private Double latitud = Double.valueOf(0);
-        private Double longitud = Double.valueOf(0);
+        //private Double latitud = Double.valueOf(0);
+        //private Double longitud = Double.valueOf(0);
         private boolean cent;
 
         @Override
@@ -85,14 +85,14 @@ public class DemonioGeo extends Service {
             LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
             Location location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if (location != null){
-                longitud = location.getLongitude();
-                latitud = location.getLatitude();
+                Global.longitud = location.getLongitude();
+                Global.latitud = location.getLatitude();
             }
 
-            Log.d("LON", String.valueOf(longitud));
-            Log.d("LAT", String.valueOf(latitud));
+            Log.d("LON", String.valueOf(Global.longitud));
+            Log.d("LAT", String.valueOf(Global.latitud));
 
-            Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueadero(Global.usuario_id, longitud, latitud);
+            Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueadero(Global.usuario_id, Global.longitud, Global.latitud);
             mService.enqueue(new Callback<RespuestaAPIServidor>() {
                 @Override
                 public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
@@ -101,11 +101,12 @@ public class DemonioGeo extends Service {
                     {
                         RespuestaAPIServidor r = response.body();
                         String returnedResponse = r.estado;
-                        //showProgress(false);
                         if(returnedResponse.trim().equals("0")){
-                            Toast.makeText(getApplicationContext(), "long:" + String.valueOf(longitud)+ " - lat: "+ String.valueOf(latitud) + " NO ESTA EN PARQUEADERO FIEC", Toast.LENGTH_LONG).show();
+                            Global.en_area = false;
+                            Toast.makeText(getApplicationContext(), "long:" + String.valueOf(Global.longitud)+ " - lat: "+ String.valueOf(Global.latitud) + " NO ESTA EN PARQUEADERO FIEC", Toast.LENGTH_LONG).show();
                         }else {
-                            Toast.makeText(getApplicationContext(), "long:" + String.valueOf(longitud)+ " - lat: "+ String.valueOf(latitud) + " SI ESTA EN PARQUEADERO FIEC", Toast.LENGTH_LONG).show();
+                            Global.en_area = true;
+                            Toast.makeText(getApplicationContext(), "long:" + String.valueOf(Global.longitud)+ " - lat: "+ String.valueOf(Global.latitud) + " SI ESTA EN PARQUEADERO FIEC", Toast.LENGTH_LONG).show();
                         }
                     }
                     else {

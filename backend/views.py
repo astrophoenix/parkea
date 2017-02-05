@@ -28,26 +28,31 @@ def obtener_usuario(request, usuario_id):
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
 def registrar_usuario(request, nombre, apellido, placa, correo, clave):
-	personas = Persona.objects.filter(correo=unquote(correo))
-	# No existen Personas previas con el usuario.
-	if personas.count() == 0:
-		#Debe registrar el nuevo usuario visitante
-		try:
-			persona = Persona()
-			persona.nombre = nombre
-			persona.apellido = apellido
-			persona.correo = correo
-			persona.clave = clave
-			persona.tipo = Persona.VISITANTE
-			persona.save()
-			detalle_placa = PersonaPlaca(persona=persona, placa=placa)
-			detalle_placa.save()
-			estado = persona.id
-		except Exception as e:
-			estado = 0	
+	estado_placa = PersonaPlaca.validar_placa(placa)
+	if estado_placa == 'OK':
+		personas = Persona.objects.filter(correo=unquote(correo))
+		# No existen Personas previas con el usuario.
+		if personas.count() == 0:
+			#Debe registrar el nuevo usuario visitante
+			try:
+				persona = Persona()
+				persona.nombre = nombre
+				persona.apellido = apellido
+				persona.correo = correo
+				persona.clave = clave
+				persona.tipo = Persona.VISITANTE
+				persona.save()
+				detalle_placa = PersonaPlaca(persona=persona, placa=placa)
+				detalle_placa.save()
+				estado = persona.id
+			except Exception as e:
+				estado = 0	
+		else:
+			# Existen Personas previas con el usuario.
+			estado = 0
 	else:
-		# Existen Personas previas con el usuario.
-		estado = 0
+		#Placa No válida
+		estado = -1
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -55,21 +60,26 @@ def registrar_parqueo_persona(request, parqueadero_id, placa, longitud, latitud,
 	estado = 0
 	if parqueadero_id and placa:
 		try:
-			hoy = datetime.now()
-			parqueadero = Parqueadero.objects.get(pk=parqueadero_id)		
-			reg_parqueo = RegistroParqueo()
-			reg_parqueo.usuario_id = usuario_id
-			reg_parqueo.facultad = parqueadero.facultad
-			reg_parqueo.parqueadero = parqueadero
-			reg_parqueo.placa = placa
-			reg_parqueo.fecha_ingreso = hoy
-			reg_parqueo.hora_ingreso = hoy.time()
-			reg_parqueo.longitud = longitud
-			reg_parqueo.latitud = latitud
-			reg_parqueo.estado = 'A'
-			reg_parqueo.save()
-			Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
-			estado = 1
+			#valida si existen parqueos ocupados previamente por el usuario
+			registros_parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
+			if registros_parqueos_abiertos.count() == 0:
+				hoy = datetime.now()
+				parqueadero = Parqueadero.objects.get(pk=parqueadero_id)		
+				reg_parqueo = RegistroParqueo()
+				reg_parqueo.usuario_id = usuario_id
+				reg_parqueo.facultad = parqueadero.facultad
+				reg_parqueo.parqueadero = parqueadero
+				reg_parqueo.placa = placa
+				reg_parqueo.fecha_ingreso = hoy
+				reg_parqueo.hora_ingreso = hoy.time()
+				reg_parqueo.longitud = longitud
+				reg_parqueo.latitud = latitud
+				reg_parqueo.estado = 'A'
+				reg_parqueo.save()
+				Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
+				estado = 1
+			else:
+				estado = -1
 		except Exception as e:
 			pass
 	data = {'estado': estado}
@@ -112,13 +122,17 @@ def obtener_placasxpersona(request, persona_id):
 def registrar_placa_usuario(request, usuario_id, placa):
 	estado = 0
 	try:
-		placas_persona = PersonaPlaca.objects.filter(persona__id=usuario_id, placa=placa)
-		if placas_persona.count() == 0:
-			detalle_placa = PersonaPlaca(persona_id=usuario_id, placa=placa)
-			detalle_placa.save()
-			estado = 1
+		estado_placa = PersonaPlaca.validar_placa(placa)
+		if estado_placa == 'OK':
+			placas_persona = PersonaPlaca.objects.filter(persona__id=usuario_id, placa=placa)
+			if placas_persona.count() == 0: #Placa nueva del usuario
+				detalle_placa = PersonaPlaca(persona_id=usuario_id, placa=placa)
+				detalle_placa.save()
+				estado = 1
+			else: #Placa ya existe para el usuario
+				estado = -1
 		else:
-			estado = -1
+			estado = -2 #Placa no valida para la ATM
 	except Exception as e:
 		pass
 	
@@ -304,3 +318,10 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 
 	data = {'estado': en_area}
 	return HttpResponse(json.dumps(data), content_type='application/json')
+
+# def validar_placa(request, placa):
+# 	# GHR0263
+# 	url = "http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_consulta_persona.jsp?ps_tipo_identificacion=PLA&ps_identificacion="+str(placa)
+# 	data = requests.get(url).json()
+# 	return HttpResponse(json.dumps(data), content_type='application/json')
+

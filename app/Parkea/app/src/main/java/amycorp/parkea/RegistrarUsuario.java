@@ -150,8 +150,14 @@ public class RegistrarUsuario extends AppCompatActivity {
                         RespuestaAPIServidor mLoginObject = response.body();
                         String returnedResponse = mLoginObject.estado;
                         //showProgress(false);
-                        if(returnedResponse.trim().equals("0")){
+                        if(returnedResponse.trim().equals("0")) {
                             Toast.makeText(RegistrarUsuario.this, "No se ha podido registrar el usuario, ya existe", Toast.LENGTH_SHORT).show();
+                        }else if(returnedResponse.trim().equals("-1")){
+                            View focusView = null;
+                            TextInputLayout txtobj = (TextInputLayout) txt_placa.getParent();
+                            txtobj.setError("Placa no registrada en ATM");
+                            focusView = txtobj;
+                            focusView.requestFocus();
                         }else {
                             Global.usuario_id = Integer.valueOf(returnedResponse);
                             Toast.makeText(RegistrarUsuario.this, "Registro exitoso de usuario", Toast.LENGTH_SHORT).show();
