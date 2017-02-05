@@ -2,10 +2,13 @@ package amycorp.parkea;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,10 +47,17 @@ public class RegistrarUsuario extends AppCompatActivity {
         btn_guardar_usuario = (Button) findViewById(R.id.btn_guardar_usuario);
 
 
-        final MaskedTextChangedListener listener = new MaskedTextChangedListener("[AAA]-[0000]", true, txt_placa, null, null);
+        //final MaskedTextChangedListener listener = new MaskedTextChangedListener("[AAA]-[0000]", true, txt_placa, null, null);
+        //txt_placa.addTextChangedListener(listener);
+        //txt_placa.setOnFocusChangeListener(listener);
 
-        txt_placa.addTextChangedListener(listener);
-        txt_placa.setOnFocusChangeListener(listener);
+//        txt_placa.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                txt_placa.setSelection(txt_placa.getText().length());
+//                return false;
+//            }
+//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

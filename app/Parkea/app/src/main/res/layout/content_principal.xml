@@ -118,6 +118,7 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/txt_placa"
+                android:maxLength="8"
                 android:hint="Nueva Placa"
                 android:layout_height="wrap_content" />
 

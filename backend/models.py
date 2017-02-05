@@ -51,6 +51,7 @@ class PersonaPlaca(models.Model):
 	def validar_placa(cls, placa):
 		# GHR0263
 		placa = placa.replace("-", "")
+		placa = placa.upper()
 		url = "http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_json_consulta_persona.jsp?ps_tipo_identificacion=PLA&ps_identificacion="+str(placa)
 		data = requests.get(url).json()
 		return data['mensaje']

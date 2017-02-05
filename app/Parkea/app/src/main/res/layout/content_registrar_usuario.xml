@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
+                android:maxLength="8"
                 android:hint="Placa"
                 android:id="@+id/txt_placa"
                 android:drawableLeft="@drawable/ic_carro_black_24dp" />
