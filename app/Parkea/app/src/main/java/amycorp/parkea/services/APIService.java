@@ -6,12 +6,17 @@ import amycorp.parkea.models.*;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-
+/*
+* Archivo de Conexiones y Acciones  al Servidor por medio de Urls
+* */
 public interface APIService {
 
+    //Url de conexión base que apunta a la raíz del servidor para que el resto de conexiones
+    // puedan ejecutarse.
+
     //final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
-    //final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
-    final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
+    final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
+    //final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
 
 
     @GET("validar_login/{correo}/{clave}")
@@ -50,6 +55,10 @@ public interface APIService {
 
     @GET("obtener_historial_parqueo_persona/{usuario_id}/")
     Call<List<ParqueoPersona>> obtenerHistorialXPersonaAPI(@Path("usuario_id") Integer usuario_id);
+
+    @GET("obtener_notificaciones_recompensa/{usuario_id}/")
+    Call<RespuestaAPIServidor> obtenerNotificacionesRecompensaAPI(@Path("usuario_id") Integer usuario_id);
+
 
     @GET("actualizar_estado_parqueo_persona/{parqueo_id}/")
     Call<ParqueoPersona> actualizarEstadoParqueoPersonaAPI(@Path("parqueo_id") Integer parqueo_id);

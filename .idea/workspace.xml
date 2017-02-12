@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b5fc2a83-ff84-4084-92dd-4cb4711a8b15" name="Default" comment="Avances Preliminar Parkea">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable-xxhdpi/background_login.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable-xxhdpi/nav_header_parkea.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_button_background.xml" />
+    <list default="true" id="b5fc2a83-ff84-4084-92dd-4cb4711a8b15" name="Default" comment="Avances Ajustes subida anterior">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/parkea/cron.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/RegistrarParqueoActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/activity_registrar_parqueo.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/DemonioGeo.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/DemonioGeo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/models/Global.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/models/Global.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/APIService.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/services/APIService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ConsultarFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ConsultarFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/LoginActivity.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/NoticiasFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/NoticiasFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueaderoAdaptador.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueaderoAdaptador.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/ParqueaderosFacultadActivity.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/ParqueaderosFacultadActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ParqueaderosFacultadFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ParqueaderosFacultadFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueoPersonaAdaptador.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/Adapters/ParqueoPersonaAdaptador.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ParqueoPersonaFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ParqueoPersonaFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/PrincipalActivity.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/PrincipalActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/RegistrarFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/RegistrarFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/RegistrarUsuario.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/RegistrarUsuario.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ReportarFragment.java" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/java/amycorp/parkea/fragments/ReportarFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/activity_login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/build.gradle" afterPath="$PROJECT_DIR$/app/Parkea/app/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_principal.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_principal.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_registrar_usuario.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/content_registrar_usuario.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_spinner_background.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/drawable/custom_spinner_background.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/models.py" afterPath="$PROJECT_DIR$/backend/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/nav_header_principal.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/layout/nav_header_principal.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parkea/settings.py" afterPath="$PROJECT_DIR$/parkea/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/Parkea/app/src/main/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/urls.py" afterPath="$PROJECT_DIR$/backend/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views.py" afterPath="$PROJECT_DIR$/backend/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -47,21 +50,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="831" max-vertical-offset="1485">
-              <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.19354838" vertical-offset="15" max-vertical-offset="1515">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parkea/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.85542166" vertical-offset="1235" max-vertical-offset="1830">
-              <caret line="106" column="31" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1430" max-vertical-offset="2010">
+              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -80,8 +83,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/models.py" />
         <option value="$PROJECT_DIR$/parkea/settings.py" />
+        <option value="$PROJECT_DIR$/backend/models.py" />
       </list>
     </option>
   </component>
@@ -308,9 +311,8 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24735558" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -325,6 +327,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32980332" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -354,13 +357,31 @@
     </option>
     <MESSAGE value="Avances Preliminar Parkea" />
     <MESSAGE value="Avances Parkea GPS, y ajustes generales" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avances Parkea GPS, y ajustes generales" />
+    <MESSAGE value="Avances Validación Placa, Validación Usuario Fuera del Area, Configuración Horario Servidor, Disenio" />
+    <MESSAGE value="Avances Ajustes subida anterior" />
+    <option name="LAST_COMMIT_MESSAGE" value="Avances Ajustes subida anterior" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/backend/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parkea/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1235" max-vertical-offset="1830">
+          <caret line="106" column="31" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/backend/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1365">
@@ -409,18 +430,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/models.py">
+    <entry file="file://$PROJECT_DIR$/parkea/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="831" max-vertical-offset="1485">
-          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1430" max-vertical-offset="2010">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/parkea/settings.py">
+    <entry file="file://$PROJECT_DIR$/backend/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85542166" vertical-offset="1235" max-vertical-offset="1830">
-          <caret line="106" column="31" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.19354838" vertical-offset="15" max-vertical-offset="1515">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>

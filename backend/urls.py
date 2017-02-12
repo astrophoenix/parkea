@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'obtener_eventos/$', views.obtener_eventos),
     url(r'obtener_recompensaxusuario/(?P<usuario_id>[0-9]+)/$', views.obtener_recompensaxusuario),
     url(r'obtener_rating_usuario/(?P<usuario_id>[0-9]+)/$', views.obtener_rating_usuario),
+    url(r'obtener_notificaciones_recompensa/(?P<usuario_id>[0-9]+)/$', views.obtener_notificaciones_recompensa),
     url(r'verificar_usuario_area_parqueadero/(?P<usuario_id>[0-9]+)/(?P<longitud>.+)/(?P<latitud>.+)/$', views.verificar_usuario_area_parqueadero),
-    # url(r'validar_placa/(?P<placa>[\w\d@\.-]+)/$', views.validar_placa),
 ]

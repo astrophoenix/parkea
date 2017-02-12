@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.db import models
+from datetime import datetime
 import requests 
 # Create your models here.
 
@@ -48,7 +49,7 @@ class PersonaPlaca(models.Model):
 	placa = models.CharField(max_length=13, null=True)
 
 	@classmethod
-	def validar_placa(cls, placa):
+	def validarPlaca(cls, placa):
 		# GHR0263
 		placa = placa.replace("-", "")
 		placa = placa.upper()
@@ -79,8 +80,8 @@ class ReportePersona(models.Model):
 	parqueadero = models.ForeignKey(Parqueadero, null=True)
 	num_parqueos_ocupados = models.IntegerField(null=True)
 	persona = models.ForeignKey(Persona, null=True)
-	fecha_creacion = models.DateTimeField(auto_now_add=True)
-	ultima_modificacion = models.DateTimeField(auto_now=True)
+	fecha_creacion = models.DateField(null=True)
+	hora_creacion = models.TimeField(null=True)
 
 class Noticia(models.Model):
 	TIPO_NOTICIA_EVENTO = 'E'
@@ -88,8 +89,9 @@ class Noticia(models.Model):
 	descripcion = models.CharField(max_length=200, null=True)
 	tipo = models.CharField(max_length=2, null=True)
 	usuario = models.ForeignKey(Persona, null=True)
-	fecha_creacion = models.DateTimeField(auto_now_add=True)
-	ultima_modificacion = models.DateTimeField(auto_now=True)
+	fecha_creacion = models.DateField(null=True)
+	hora_creacion = models.TimeField(null=True)
+	estado = models.CharField(max_length=2, default='P') # Se crea Con estado Pendiente
 
 	def __str__(self):
 		return self.descripcion + ' | ' + self.tipo

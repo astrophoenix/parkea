@@ -132,7 +132,7 @@ public class RegistrarFragment extends Fragment {
                 if(Global.en_area){
                     registrarParqueoPersona();
                 }else{
-                    Toast.makeText(thiscontext, "No puede registrarse fuera del parqueadero.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, "No puede registrarse fuera del parqueadero.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -188,22 +188,14 @@ public class RegistrarFragment extends Fragment {
 
                         public void onNothingSelected(AdapterView<?> parent) { }
                     });
-
-
                 } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Facultad>> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -260,17 +252,13 @@ public class RegistrarFragment extends Fragment {
                 } else {
                     //Log.e("Error Code", String.valueOf(response.code()));
                     //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Parqueadero>> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
-                //Toast.makeText(LoginActivity.this, "No tiene permisos para el Servicio de Internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -315,18 +303,13 @@ public class RegistrarFragment extends Fragment {
                     });
 
                 } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Placa>> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -341,9 +324,6 @@ public class RegistrarFragment extends Fragment {
         Placa placa = (Placa) spinnerPlacas.getItemAtPosition(spinnerPlacas.getSelectedItemPosition());
         String placa_nombre = placa.getNombre();
 
-        //Log.e("longitude", String.valueOf(longitude));
-        //Log.e("latitude", String.valueOf(latitude));
-
         APIService mApiService = Controller.getInterfaceService();
         Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, Global.longitud, Global.latitud, Global.usuario_id);
 
@@ -354,19 +334,19 @@ public class RegistrarFragment extends Fragment {
                     RespuestaAPIServidor r = response.body();
                     String returnedResponse = r.estado;
                     if(returnedResponse.trim().equals("1")){
-                        Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_LONG).show();
+                        Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
                         Intent inicioIntent = new Intent(thiscontext, PrincipalActivity.class);
                         startActivity(inicioIntent);
                     }else if(returnedResponse.trim().equals("-1")){
-                        Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_LONG).show();
+                        Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
+                        Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     //Log.e("Error Code", String.valueOf(response.code()));
                     //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -375,7 +355,7 @@ public class RegistrarFragment extends Fragment {
                 //call.cancel();
                 //Log.d("ERROR1", t.getMessage());
                 //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
 
 

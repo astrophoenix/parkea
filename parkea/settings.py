@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend',
+    'django_crontab',
+    'backend'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,6 +83,17 @@ DATABASES = {
     }
 }
 
+CRONJOBS = [
+    # .---------------- minute (0 - 59)
+    # |  .------------- hour (0 - 23)
+    # |  |  .---------- day of month (1 - 31)
+    # |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+    # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+    # |  |  |  |  |
+    # *  *  *  *  * user-name  command to be executed
+    ('*/5 * * * *', 'parkea.cron.verificarGanadorRecompensa')
+    # ('2 18 * * *', 'parkea.cron.verificarGanadorRecompensa') # Se ejecuta 18:01 todos los dias
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -96,7 +108,7 @@ DATABASES = {
 # locale.setlocale(locale.LC_MONETARY, LOCALE_NUMERIC_CONFIG)
 
 LANGUAGE_CODE = 'es_ec'
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

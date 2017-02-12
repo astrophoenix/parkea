@@ -286,40 +286,21 @@ public class ReportarFragment extends Fragment {
                         String returnedResponse = r.estado;
                         if(returnedResponse.trim().equals("1")) {
                             Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                        }else if(returnedResponse.trim().equals("2")){
-                            Toast.makeText(thiscontext, "Registro Exitoso. Has ganado una recompensa!", Toast.LENGTH_LONG).show();
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(thiscontext);
-
-                            //Create the intent that’ll fire when the user taps the notification//
-
-                            Intent principalIntent = new Intent(thiscontext, PrincipalActivity.class);
-                            principalIntent.putExtra("menuFragment", "menu_recompensas");
-
-                            PendingIntent pendingIntent = PendingIntent.getActivity(thiscontext, 0, principalIntent, 0);
-
-                            mBuilder.setContentIntent(pendingIntent);
-
-                            mBuilder.setSmallIcon(R.drawable.ic_notificacion);
-                            mBuilder.setContentTitle("Premio");
-                            mBuilder.setContentText("Has ganado una recompensa en Parkea!");
-                            NotificationManager mNotificationManager = (NotificationManager) thiscontext.getSystemService(Context.NOTIFICATION_SERVICE);
-                            mNotificationManager.notify(001, mBuilder.build());
+                        }else if(returnedResponse.trim().equals("-1")){
+                            Toast.makeText(thiscontext, "No puede reportar durante una hora.", Toast.LENGTH_SHORT).show();
+                        }else if(returnedResponse.trim().equals("-2")){
+                            Toast.makeText(thiscontext, "No puede reportar hasta las 07:00 de mañana.", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
+                            Toast.makeText(thiscontext, "Error al intentar reportar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
                         }
 
                     } else {
-                        //Log.e("Error Code", String.valueOf(response.code()));
-                        //Log.e("Error Body", response.errorBody().toString());
                         Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                    //call.cancel();
-                    //Log.d("ERROR1", t.getMessage());
-                    //Log.i("ERROR2", t.getCause() + "");
                     Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
                 }
 

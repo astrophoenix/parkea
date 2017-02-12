@@ -107,9 +107,7 @@ public class ConsultarFragment extends Fragment {
                     rv.setAdapter(facultad_adaptador);
 
                 } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -118,7 +116,7 @@ public class ConsultarFragment extends Fragment {
                 //call.cancel();
                 //Log.d("ERROR1", t.getMessage());
                 //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
 
 

@@ -17,7 +17,6 @@ import java.util.List;
 
 import amycorp.parkea.MapaActivity;
 import amycorp.parkea.R;
-import amycorp.parkea.RegistrarParqueoActivity;
 import amycorp.parkea.fragments.ParqueaderosFacultadFragment;
 import amycorp.parkea.fragments.RegistrarFragment;
 import amycorp.parkea.models.Parqueadero;

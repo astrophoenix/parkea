@@ -43,21 +43,13 @@
             android:name=".ParqueaderosFacultadActivity"
             android:label="Parqueaderos"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".RegistrarParqueoActivity"
-            android:label="Registrar Parqueo"
-            android:screenOrientation="portrait" />
+
         <activity android:name=".MapaActivity" />
         <activity
             android:name=".PrincipalActivity"
             android:label="Mi Perfil"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <service
-            android:name=".services.DemonioGeo"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>

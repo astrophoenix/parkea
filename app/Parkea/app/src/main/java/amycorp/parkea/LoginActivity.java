@@ -179,17 +179,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         inicioIntent.putExtra("from_login", "1");
                         startActivity(inicioIntent);
                     }
-                }
-                else {
+                }else {
                     Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2",t.getCause()+"");
                 Toast.makeText(LoginActivity.this, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
         });
