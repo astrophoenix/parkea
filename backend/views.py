@@ -112,7 +112,6 @@ def obtener_facultades(request):
 	data = json.dumps(arr_facultades)
 	return HttpResponse(data, content_type='application/json')
 
-
 def obtener_historial_parqueo_persona(request, usuario_id):
 	"""
 	Consulta y devuelve una lista de parqueos del ususario
@@ -121,7 +120,6 @@ def obtener_historial_parqueo_persona(request, usuario_id):
 	parqueos_persona = RegistroParqueo.objects.filter(usuario__id=int(usuario_id)).order_by('-id').values_list('id', 'usuario', 'facultad', 'parqueadero', 'placa', 'fecha_ingreso', 'hora_ingreso', 'fecha_salida', 'hora_salida', 'longitud', 'latitud', 'estado')
 	data = json.dumps([{"id": p[0], "persona_id": p[1], "facultad_id": p[2], "parqueadero_id":p[3], "placa":p[4], "fecha_ingreso":p[5], "hora_ingreso":p[6], "fecha_salida":p[7], "hora_salida":p[8], "longitud":p[9], "latitud":p[10], "estado":p[11] } for p in parqueos_persona], cls=DjangoJSONEncoder)
 	return HttpResponse(data, content_type='application/json')
-
 
 def obtener_parqueaderosxfacultad(request, facultad_id):
 	"""

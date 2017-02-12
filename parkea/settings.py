@@ -91,8 +91,8 @@ CRONJOBS = [
     # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
     # |  |  |  |  |
     # *  *  *  *  * user-name  command to be executed
-    ('*/5 * * * *', 'parkea.cron.verificarGanadorRecompensa')
-    # ('2 18 * * *', 'parkea.cron.verificarGanadorRecompensa') # Se ejecuta 18:01 todos los dias
+    #('*/5 * * * *', 'parkea.cron.verificarGanadorRecompensa')
+    ('1 18 * * *', 'parkea.cron.verificarGanadorRecompensa') # Se ejecuta 18:01 todos los dias
 ]
 
 # Internationalization
