@@ -38,31 +38,32 @@ def registrar_usuario(request, nombre, apellido, placa, correo, clave):
 	Agrega un nuevo usuario al sistema con los diferentes datos
 	"""
 	# Valida en el sitio oficial de atm si existe la placa en su base de datos
-	estado_placa = PersonaPlaca.validarPlaca(placa)
-	if estado_placa == 'OK':
-		personas = Persona.objects.filter(correo=unquote(correo))
-		# No existen Personas previas con el usuario.
-		if personas.count() == 0:
-			#Debe registrar el nuevo usuario visitante
-			try:
-				persona = Persona()
-				persona.nombre = nombre
-				persona.apellido = apellido
-				persona.correo = correo
-				persona.clave = clave
-				persona.tipo = Persona.VISITANTE
-				persona.save()
-				detalle_placa = PersonaPlaca(persona=persona, placa=placa)
-				detalle_placa.save()
-				estado = persona.id
-			except Exception as e:
-				estado = 0	
-		else:
-			# Existen Personas previas con el usuario.
-			estado = 0
+	personas = Persona.objects.filter(correo=unquote(correo))
+	# No existen Personas previas con el usuario.
+	if personas.count() == 0:
+		#Debe registrar el nuevo usuario visitante
+		try:
+			persona = Persona()
+			persona.nombre = nombre
+			persona.apellido = apellido
+			persona.correo = correo
+			persona.clave = clave
+			persona.tipo = Persona.VISITANTE
+			persona.save()
+			estado = persona.id
+			if placa and placa != '':
+				estado_placa = PersonaPlaca.validarPlaca(placa)
+				if estado_placa == 'OK':
+					detalle_placa = PersonaPlaca(persona=persona, placa=placa)
+					detalle_placa.save()
+				else:
+					#Placa No válida
+					estado = -1
+		except Exception as e:
+			estado = 0	
 	else:
-		#Placa No válida
-		estado = -1
+		# Existen Personas previas con el usuario.
+			estado = 0
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -356,10 +357,13 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 			if poligono[i][0] + (y - poligono[i][1]) / (poligono[j][1] - poligono[i][1]) * (poligono[j][0] - poligono[i][0]) < x:
 				en_area = 1
 		j = i    
+	#En caso de no estar en el area cierra todos los parqueos abiertos con fecha y hora que ha detectado el servidor 
+	#cuando se logueó o estuvo activa la app
 	if en_area == 0:
+		hoy = datetime.now()
 		parqueadero_id = 1 #Parqueo Fiec
 		registros_parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
-		registros_parqueos_abiertos.update(estado='I')
+		registros_parqueos_abiertos.update(estado='I', fecha_salida=hoy, hora_salida=hoy.time())
 		Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
 
 	data = {'estado': en_area}

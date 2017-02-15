@@ -1,6 +1,7 @@
 package amycorp.parkea;
 
 
+import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -449,18 +450,11 @@ public class PrincipalActivity extends AppCompatActivity
     public void onBackPressed()
     {
 
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-
-            finish();
+            super.onBackPressed();
         }
     }
 
@@ -488,6 +482,17 @@ public class PrincipalActivity extends AppCompatActivity
     }
 
     /*
+    * Quita los Fragments (Pantallas) previamente visitadas.
+    * */
+    private void borrarPantallasPrevias()
+    {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        int count = fm.getBackStackEntryCount();
+        for(int i = 0; i < count; ++i)
+            fm.popBackStack();// quita la pantalla encontrada
+    }
+
+    /*
     * Acciones del Menu Lateral que permite la navegación entre las diferentes opciones
     * */
     @SuppressWarnings("StatementWithEmptyBody")
@@ -508,6 +513,7 @@ public class PrincipalActivity extends AppCompatActivity
             fragment = new ConsultarFragment();
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
+            borrarPantallasPrevias();
             if (Global.en_area){
                 fragment = new RegistrarFragment();
                 FragmentTransaction = true;
@@ -515,6 +521,7 @@ public class PrincipalActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero"), Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_reportar) {
+            borrarPantallasPrevias();
             if (Global.en_area){
                 fragment = new ReportarFragment();
                 FragmentTransaction = true;
@@ -522,20 +529,24 @@ public class PrincipalActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), String.valueOf("No puede reportar fuera del parqueadero"), Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_eventos) {
+            borrarPantallasPrevias();
             fragment = new NoticiasFragment();
             FragmentTransaction = true;
             args.putString("tipo_noticia", "E");
             fragment.setArguments(args);
         } else if (id == R.id.nav_encuesta) {
+            borrarPantallasPrevias();
             Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("https://goo.gl/forms/1q47PkX9Jcjy5U5d2"));
             startActivity(viewIntent);
             FragmentTransaction = false;
         } else if (id == R.id.nav_recompensa) {
+            borrarPantallasPrevias();
             fragment = new NoticiasFragment();
             args.putString("tipo_noticia", "R");
             fragment.setArguments(args);
             FragmentTransaction = true;
         } else if (id == R.id.nav_mapa_espol) {
+            borrarPantallasPrevias();
             fragment = new MapaParqueosFragment();
             FragmentTransaction = true;
         } else if (id == R.id.nav_salir) {
