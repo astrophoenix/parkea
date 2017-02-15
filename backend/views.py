@@ -253,12 +253,10 @@ def obtener_notificaciones_recompensa(request, usuario_id):
 	"""
 	estado = 0
 	try:
-		recompensa = Noticia.objects.filter(tipo=Noticia.TIPO_NOTICIA_RECOMPENSA, usuario__id=usuario_id, estado='P')
-		if recompensa.count() == 1:
+		recompensas = Noticia.objects.filter(tipo=Noticia.TIPO_NOTICIA_RECOMPENSA, usuario__id=usuario_id, estado='P')
+		if recompensas.count() >= 1:
+			recompensas.update(estado='E')
 			estado = 1
-			recompensa = recompensa.first()
-			recompensa.estado = 'E' #Entregado al usuario
-			recompensa.save()
 	except Exception as e:
 		estado = 0
 	

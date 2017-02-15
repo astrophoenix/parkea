@@ -16,4 +16,6 @@ def verificarGanadorRecompensa():
 	# noticia.descripcion = 'Parqueos disponibles: ' + str(porcentaje_disponibles) + '%'
 	noticia.descripcion = 'Parqueos disponibles: ' + str(num_reportes)
 	noticia.usuario_id = usuario_id
+	noticia.fecha_creacion = hoy
+	noticia.hora_creacion = hoy.time()
 	noticia.save()
