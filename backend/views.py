@@ -226,7 +226,7 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 				registrar = True
 			
 			# if registrar:
-			if True:
+			if True: #colocado tmp
 				#Guarda Reporte Persona
 				reporte = ReportePersona()
 				reporte.parqueadero_id = parqueadero_id
@@ -254,6 +254,10 @@ def obtener_notificaciones_recompensa(request, usuario_id):
 	estado = 0
 	try:
 		recompensas = Noticia.objects.filter(tipo=Noticia.TIPO_NOTICIA_RECOMPENSA, usuario__id=usuario_id, estado='P')
+		ultima_recompensa = recompensas.last()
+		parqueadero_fiec = Parqueadero.objects.get(pk=1)
+		ultima_recompensa.descripcion = 'Parqueos disponibles: ' + str(parqueadero_fiec.disponibles)
+		ultima_recompensa.save()
 		if recompensas.count() >= 1:
 			recompensas.update(estado='E')
 			estado = 1
