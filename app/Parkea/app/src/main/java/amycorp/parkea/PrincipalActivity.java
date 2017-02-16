@@ -381,20 +381,20 @@ public class PrincipalActivity extends AppCompatActivity
                     if(returnedResponse.trim().equals("1"))
                     {
                         Toast.makeText(getApplicationContext(), "Has ganado una recompensa!", Toast.LENGTH_SHORT).show();
-//                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
-//
-//                        Intent principalIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
-//                        principalIntent.putExtra("menuFragment", "menu_recompensas");
-//
-//                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, principalIntent, 0);
-//
-//                        mBuilder.setContentIntent(pendingIntent);
-//
-//                        mBuilder.setSmallIcon(R.drawable.ic_notificacion);
-//                        mBuilder.setContentTitle("Premio");
-//                        mBuilder.setContentText("Has ganado una recompensa en Parkea!");
-//                        NotificationManager mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-//                        mNotificationManager.notify(001, mBuilder.build());
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
+
+                        Intent principalIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
+                        principalIntent.putExtra("menuFragment", "menu_recompensas");
+
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, principalIntent, 0);
+
+                        mBuilder.setContentIntent(pendingIntent);
+
+                        mBuilder.setSmallIcon(R.drawable.ic_notificacion);
+                        mBuilder.setContentTitle("Premio");
+                        mBuilder.setContentText("Has ganado una recompensa en Parkea!");
+                        NotificationManager mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager.notify(001, mBuilder.build());
                     }
                 }
                 else {
@@ -529,15 +529,15 @@ public class PrincipalActivity extends AppCompatActivity
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
             borrarPantallasPrevias();
-            if (Global.en_area || true){
+            if (Global.en_area){
                 fragment = new RegistrarFragment();
                 FragmentTransaction = true;
             }else{
-                Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero :* "), Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_reportar) {
             borrarPantallasPrevias();
-            if (Global.en_area || true){
+            if (Global.en_area){
                 fragment = new ReportarFragment();
                 FragmentTransaction = true;
             }else{
