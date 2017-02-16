@@ -213,7 +213,7 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 		registrar = False
 		diferencia_segundos = 0
 		hoy = datetime.now()
-		horario_fin_dia = datetime.strptime("23:00", "%H:%M")
+		horario_fin_dia = datetime.strptime("03:00", "%H:%M")
 		if True: #hoy.time() <= horario_fin_dia.time():
 			# Verifica el ultimo reporte del dia y compara si ha pasado una hora para permitirle 
 			# registrar otro reporte
@@ -299,6 +299,20 @@ def obtener_rating_usuario(request, usuario_id):
 	rating_actual = str(Decimal(rating_actual.quantize(Decimal('.01'), rounding=ROUND_HALF_UP)))
 	data = {'estado': rating_actual}
 	return HttpResponse(json.dumps(data), content_type='application/json')
+
+def verificar_registro_reporte_parqueo_activo(request, usuario_id):
+	estado = 0
+	hoy = datetime.now()
+	parqueadero_id = 1 #Parqueo Fiec
+	reportes = ReportePersona.objects.filter(persona__id=usuario_id, fecha_creacion=hoy)
+	parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
+
+	if reportes.count() > 0 or parqueos_abiertos.count() > 0:
+		estado = 1
+
+	data = {'estado': estado}
+	return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 	"""

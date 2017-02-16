@@ -101,8 +101,7 @@ public class ReportarFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view;
         view = inflater.inflate(R.layout.fragment_reportar, container, false);
@@ -132,7 +131,8 @@ public class ReportarFragment extends Fragment {
     }
 
 
-    private void obtenerFacultades() {
+    private void obtenerFacultades()
+    {
         APIService mApiService = Controller.getInterfaceService();
         Call<List<Facultad>> mService = mApiService.obtenerFacultadesAPI();
         mService.enqueue(new Callback<List<Facultad>>() {
@@ -201,7 +201,8 @@ public class ReportarFragment extends Fragment {
         });
     }
 
-    private void obtenerParqueaderosXFacultad(Integer facultad_id ) {
+    private void obtenerParqueaderosXFacultad(Integer facultad_id )
+    {
 
         APIService mApiService = Controller.getInterfaceService();
         Call<List<Parqueadero>> mService = mApiService.obtenerParqueaderosXFacultadAPI(facultad_id);
@@ -267,10 +268,12 @@ public class ReportarFragment extends Fragment {
         });
     }
 
-    private void reportarParqueoPersona() {
+    private void reportarParqueoPersona()
+    {
         txtParqueosOcupados.setError(null);
         String parqueos_ocupados = txtParqueosOcupados.getText().toString();
-        if (!parqueos_ocupados.equals("")){
+        if (!parqueos_ocupados.equals(""))
+        {
             Integer num_parqueos_ocupados = Integer.valueOf(String.valueOf(parqueos_ocupados));
             Parqueadero parqueadero = (Parqueadero)spinnerParqueaderos.getItemAtPosition(spinnerParqueaderos.getSelectedItemPosition());
             Integer parqueadero_id = parqueadero.getId();
@@ -285,6 +288,7 @@ public class ReportarFragment extends Fragment {
                         RespuestaAPIServidor r = response.body();
                         String returnedResponse = r.estado;
                         if(returnedResponse.trim().equals("1")) {
+                            Global.flag_registro_reporte = true;
                             Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
                         }else if(returnedResponse.trim().equals("-1")){
                             Toast.makeText(thiscontext, "No puede reportar durante una hora.", Toast.LENGTH_SHORT).show();
@@ -293,7 +297,6 @@ public class ReportarFragment extends Fragment {
                         }else {
                             Toast.makeText(thiscontext, "Error al intentar reportar parqueo, verificar conexión", Toast.LENGTH_LONG).show();
                         }
-
                     } else {
                         Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_LONG).show();
                     }

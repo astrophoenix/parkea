@@ -15,8 +15,8 @@ public interface APIService {
     // puedan ejecutarse.
 
     //final String BASE_URL = "http://10.0.2.2:8000/backend/"; //local emulador a bd
-    //final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
-    final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
+    final String BASE_URL = "http://192.168.100.6:8000/backend/"; //local dispositivo a bd
+    //final String BASE_URL = "http://198.199.122.165:8000/backend/"; // remoto dispositivo a bd
 
 
     @GET("validar_login/{correo}/{clave}")
@@ -78,9 +78,14 @@ public interface APIService {
     Call<RespuestaAPIServidor> obtenerRatingUsuarioAPI(@Path("usuario_id") Integer usuario_id);
 
     @GET("verificar_usuario_area_parqueadero/{usuario_id}/{longitud}/{latitud}")
-    Call<RespuestaAPIServidor> verificarUsuarioAreaParqueadero(@Path("usuario_id") Integer usuario_id,
+    Call<RespuestaAPIServidor> verificarUsuarioAreaParqueaderoAPI(@Path("usuario_id") Integer usuario_id,
                                                                @Path("longitud") Double longitud,
                                                                @Path("latitud") Double latitud );
+
+
+
+    @GET("verificar_registro_reporte_parqueo_activo/{usuario_id}/")
+    Call<RespuestaAPIServidor> verificarRegistroReporteParqueoActivoAPI(@Path("usuario_id") Integer usuario_id);
 }
 
 

@@ -92,7 +92,7 @@ public class DemonioGeo extends Service {
             Log.d("LON", String.valueOf(Global.longitud));
             Log.d("LAT", String.valueOf(Global.latitud));
 
-            Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueadero(Global.usuario_id, Global.longitud, Global.latitud);
+            Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueaderoAPI(Global.usuario_id, Global.longitud, Global.latitud);
             mService.enqueue(new Callback<RespuestaAPIServidor>() {
                 @Override
                 public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
@@ -110,8 +110,6 @@ public class DemonioGeo extends Service {
                         }
                     }
                     else {
-                        //Log.e("Error Code", String.valueOf(response.code()));
-                        //Log.e("Error Body", response.errorBody().toString());
                         Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
                 }

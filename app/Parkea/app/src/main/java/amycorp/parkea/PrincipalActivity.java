@@ -418,7 +418,7 @@ public class PrincipalActivity extends AppCompatActivity
     private void verificarPuntoEnArea()
     {
         APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueadero(Global.usuario_id, Global.longitud, Global.latitud);
+        Call<RespuestaAPIServidor> mService = mApiService.verificarUsuarioAreaParqueaderoAPI(Global.usuario_id, Global.longitud, Global.latitud);
         mService.enqueue(new Callback<RespuestaAPIServidor>() {
             @Override
             public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
@@ -452,7 +452,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         int num_activities_activas = fm.getBackStackEntryCount();
-        Log.e("#count:", String.valueOf(num_activities_activas));
+        //Log.e("#count:", String.valueOf(num_activities_activas));
         if (num_activities_activas >= 1)
         {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -507,6 +507,37 @@ public class PrincipalActivity extends AppCompatActivity
             fm.popBackStack();// quita la pantalla encontrada
     }
 
+    private void verificarRegistroReporteParqueoActivo()
+    {
+        APIService mApiService = Controller.getInterfaceService();
+        Call<RespuestaAPIServidor> mService = mApiService.verificarRegistroReporteParqueoActivoAPI(Global.usuario_id);
+        mService.enqueue(new Callback<RespuestaAPIServidor>() {
+            @Override
+            public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+
+                if(response.isSuccessful())
+                {
+                    RespuestaAPIServidor r = response.body();
+                    String returnedResponse = r.estado;
+                    if(returnedResponse.trim().equals("0")){
+                        Global.flag_registro_reporte = false;
+                    }else {
+                        Global.flag_registro_reporte = true;
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
     /*
     * Acciones del Menu Lateral que permite la navegación entre las diferentes opciones
     * */
@@ -525,11 +556,15 @@ public class PrincipalActivity extends AppCompatActivity
             startActivity(inicioIntent);
             FragmentTransaction = false;
         }if (id == R.id.nav_consular) {
-            //= verificarRegistroParqueoActivo();
-            //= verificarRegistroParqueoActivo();
-            //if ()
-            fragment = new ConsultarFragment();
-            FragmentTransaction = true;
+            verificarRegistroReporteParqueoActivo();
+            if (Global.flag_registro_reporte)
+            {
+                fragment = new ConsultarFragment();
+                FragmentTransaction = true;
+            }else{
+                Toast.makeText(getApplicationContext(), String.valueOf("No puede consultar, no ha registrado o reportado un parqueo."), Toast.LENGTH_SHORT).show();
+            }
+
         } else if (id == R.id.nav_registrar) {
             borrarPantallasPrevias();
             if (Global.en_area){

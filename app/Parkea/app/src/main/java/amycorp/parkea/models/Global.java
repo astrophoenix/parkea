@@ -8,6 +8,7 @@ public final class Global
     public static Double latitud = Double.valueOf(0);
     public static Double longitud = Double.valueOf(0);
     public static Boolean en_area = false;
+    public static Boolean flag_registro_reporte = false;
 
 
 }
