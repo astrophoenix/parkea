@@ -51,7 +51,7 @@ def registrar_usuario(request, nombre, apellido, placa, correo, clave):
 			persona.tipo = Persona.VISITANTE
 			persona.save()
 			estado = persona.id
-			if placa and placa != '':
+			if placa != '---':
 				estado_placa = PersonaPlaca.validarPlaca(placa)
 				if estado_placa == 'OK':
 					detalle_placa = PersonaPlaca(persona=persona, placa=placa)

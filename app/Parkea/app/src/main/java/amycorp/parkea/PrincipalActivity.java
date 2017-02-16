@@ -525,6 +525,7 @@ public class PrincipalActivity extends AppCompatActivity
             startActivity(inicioIntent);
             FragmentTransaction = false;
         }if (id == R.id.nav_consular) {
+//            if ()
             fragment = new ConsultarFragment();
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
