@@ -113,7 +113,7 @@ public class RegistrarUsuario extends AppCompatActivity {
             txtobj.setError(getString(R.string.error_field_required));
             focusView = txtobj;
             cancel = true;
-        }else if (placa.length() < 7) {
+        }else if (placa.length()>0  && placa.length() < 7) {
             focusView = null;
             TextInputLayout txtobj = (TextInputLayout) txt_placa.getParent();
             txtobj.setError("Placa Incorrecta");

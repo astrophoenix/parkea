@@ -450,12 +450,27 @@ public class PrincipalActivity extends AppCompatActivity
     public void onBackPressed()
     {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        int num_activities_activas = fm.getBackStackEntryCount();
+        Log.e("#count:", String.valueOf(num_activities_activas));
+        if (num_activities_activas >= 1)
+        {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+
+
     }
 
     @Override
@@ -514,7 +529,7 @@ public class PrincipalActivity extends AppCompatActivity
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
             borrarPantallasPrevias();
-            if (Global.en_area){
+            if (Global.en_area || true){
                 fragment = new RegistrarFragment();
                 FragmentTransaction = true;
             }else{
@@ -522,7 +537,7 @@ public class PrincipalActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_reportar) {
             borrarPantallasPrevias();
-            if (Global.en_area){
+            if (Global.en_area || true){
                 fragment = new ReportarFragment();
                 FragmentTransaction = true;
             }else{
