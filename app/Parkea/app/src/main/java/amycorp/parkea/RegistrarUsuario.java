@@ -152,7 +152,10 @@ public class RegistrarUsuario extends AppCompatActivity {
             APIService mApiService = Controller.getInterfaceService();
             if (placa.equals(""))
                 placa = "---";
-
+            nombre = nombre.trim();
+            apellido = apellido.trim();
+            email = email.trim();
+            password = password.trim();
             Call<RespuestaAPIServidor> mService = mApiService.registrarUsuarioAPI(nombre, apellido, placa, email, password);
             mService.enqueue(new Callback<RespuestaAPIServidor>() {
                 @Override

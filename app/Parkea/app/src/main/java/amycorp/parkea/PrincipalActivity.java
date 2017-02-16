@@ -525,7 +525,9 @@ public class PrincipalActivity extends AppCompatActivity
             startActivity(inicioIntent);
             FragmentTransaction = false;
         }if (id == R.id.nav_consular) {
-//            if ()
+            //= verificarRegistroParqueoActivo();
+            //= verificarRegistroParqueoActivo();
+            //if ()
             fragment = new ConsultarFragment();
             FragmentTransaction = true;
         } else if (id == R.id.nav_registrar) {
@@ -534,7 +536,7 @@ public class PrincipalActivity extends AppCompatActivity
                 fragment = new RegistrarFragment();
                 FragmentTransaction = true;
             }else{
-                Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero :* "), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero"), Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_reportar) {
             borrarPantallasPrevias();

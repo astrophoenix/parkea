@@ -324,42 +324,42 @@ public class RegistrarFragment extends Fragment {
         Placa placa = (Placa) spinnerPlacas.getItemAtPosition(spinnerPlacas.getSelectedItemPosition());
         String placa_nombre = placa.getNombre();
 
-        APIService mApiService = Controller.getInterfaceService();
-        Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, Global.longitud, Global.latitud, Global.usuario_id);
+        if(!placa_nombre.equals("")){
+            APIService mApiService = Controller.getInterfaceService();
+            Call<RespuestaAPIServidor> mService = mApiService.registrarParqueoPersonaAPI(parqueadero_id, placa_nombre, Global.longitud, Global.latitud, Global.usuario_id);
 
-        mService.enqueue(new Callback<RespuestaAPIServidor>() {
-            @Override
-            public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
-                if (response.isSuccessful()) {
-                    RespuestaAPIServidor r = response.body();
-                    String returnedResponse = r.estado;
-                    if(returnedResponse.trim().equals("1")){
-                        Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-                        Intent inicioIntent = new Intent(thiscontext, PrincipalActivity.class);
-                        startActivity(inicioIntent);
-                    }else if(returnedResponse.trim().equals("-1")){
-                        Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_SHORT).show();
+            mService.enqueue(new Callback<RespuestaAPIServidor>() {
+                @Override
+                public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
+                    if (response.isSuccessful()) {
+                        RespuestaAPIServidor r = response.body();
+                        String returnedResponse = r.estado;
+                        if(returnedResponse.trim().equals("1")){
+                            Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
+                            Intent inicioIntent = new Intent(thiscontext, PrincipalActivity.class);
+                            startActivity(inicioIntent);
+                        }else if(returnedResponse.trim().equals("-1")){
+                            Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        //Log.e("Error Code", String.valueOf(response.code()));
+                        //Log.e("Error Body", response.errorBody().toString());
+                        Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                     }
-
-                } else {
-                    //Log.e("Error Code", String.valueOf(response.code()));
-                    //Log.e("Error Body", response.errorBody().toString());
-                    Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
-                //call.cancel();
-                //Log.d("ERROR1", t.getMessage());
-                //Log.i("ERROR2", t.getCause() + "");
-                Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                    Toast.makeText(thiscontext, "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(thiscontext, "No se puede registrar una placa", Toast.LENGTH_SHORT).show();
+        }
 
-
-        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
