@@ -452,7 +452,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         int num_activities_activas = fm.getBackStackEntryCount();
-        //Log.e("#count:", String.valueOf(num_activities_activas));
+        Log.e("#count:", String.valueOf(num_activities_activas));
         if (num_activities_activas >= 1)
         {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
