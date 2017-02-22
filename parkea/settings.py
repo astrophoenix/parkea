@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'django_extensions',
-    'django_crontab',
     'backend'
 )
 
@@ -92,7 +92,7 @@ CRONJOBS = [
     # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
     # |  |  |  |  |
     # *  *  *  *  * user-name  command to be executed
-    # ('*/5 * * * *', 'parkea.cron.verificarGanadorRecompensa')
+    # ('*/1 * * * *', 'parkea.cron.verificarGanadorRecompensa')
     ('1 18 * * *', 'parkea.cron.verificarGanadorRecompensa') # Se ejecuta 18:01 todos los dias
 ]
 

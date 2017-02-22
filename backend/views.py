@@ -74,24 +74,28 @@ def registrar_parqueo_persona(request, parqueadero_id, placa, longitud, latitud,
 	estado = 0
 	if parqueadero_id and placa:
 		try:
+			parqueadero = Parqueadero.objects.get(pk=parqueadero_id)
 			#valida si existen parqueos ocupados previamente por el usuario
 			registros_parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
 			if registros_parqueos_abiertos.count() == 0:
-				hoy = datetime.now()
-				parqueadero = Parqueadero.objects.get(pk=parqueadero_id)		
-				reg_parqueo = RegistroParqueo()
-				reg_parqueo.usuario_id = usuario_id
-				reg_parqueo.facultad = parqueadero.facultad
-				reg_parqueo.parqueadero = parqueadero
-				reg_parqueo.placa = placa
-				reg_parqueo.fecha_ingreso = hoy
-				reg_parqueo.hora_ingreso = hoy.time()
-				reg_parqueo.longitud = longitud
-				reg_parqueo.latitud = latitud
-				reg_parqueo.estado = 'A'
-				reg_parqueo.save()
-				Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
-				estado = 1
+				if parqueadero.disponibles > 0:
+					hoy = datetime.now()
+					parqueadero = Parqueadero.objects.get(pk=parqueadero_id)		
+					reg_parqueo = RegistroParqueo()
+					reg_parqueo.usuario_id = usuario_id
+					reg_parqueo.facultad = parqueadero.facultad
+					reg_parqueo.parqueadero = parqueadero
+					reg_parqueo.placa = placa
+					reg_parqueo.fecha_ingreso = hoy
+					reg_parqueo.hora_ingreso = hoy.time()
+					reg_parqueo.longitud = longitud
+					reg_parqueo.latitud = latitud
+					reg_parqueo.estado = 'A'
+					reg_parqueo.save()
+					Parqueadero.actualizarDisponibilidadParqueadero(parqueadero_id)
+					estado = 1
+				else:
+					estado = -2 # No hay capacidad
 			else:
 				estado = -1
 		except Exception as e:
@@ -215,9 +219,9 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 		hoy = datetime.now()
 		horario_fin_dia = datetime.strptime("18:00", "%H:%M")
 		if hoy.time() <= horario_fin_dia.time():
-			# Verifica el ultimo reporte del dia y compara si ha pasado una hora para permitirle 
+			# Verifica el ultimo reporte del dia del usuario y compara si ha pasado una hora para permitirle 
 			# registrar otro reporte
-			ultimo_reporte = ReportePersona.objects.filter(fecha_creacion=hoy).last()
+			ultimo_reporte = ReportePersona.objects.filter(fecha_creacion=hoy, persona_id=usuario_id).last()
 			if ultimo_reporte:
 				diferencia = datetime.combine(date.min, hoy.time()) - datetime.combine(date.min, ultimo_reporte.hora_creacion)
 				diferencia_segundos = diferencia.total_seconds()
@@ -227,7 +231,6 @@ def registrar_reporte_parqueos(request, parqueadero_id, num_parqueos_ocupados, u
 				registrar = True
 			
 			if registrar:
-			# if True: #colocado tmp
 				#Guarda Reporte Persona
 				reporte = ReportePersona()
 				reporte.parqueadero_id = parqueadero_id
@@ -306,10 +309,8 @@ def verificar_registro_reporte_parqueo_activo(request, usuario_id):
 	parqueadero_id = 1 #Parqueo Fiec
 	reportes = ReportePersona.objects.filter(persona__id=usuario_id, fecha_creacion=hoy)
 	parqueos_abiertos = RegistroParqueo.objects.filter(usuario__id=usuario_id, parqueadero__id=parqueadero_id, estado='A')
-
 	if reportes.count() > 0 or parqueos_abiertos.count() > 0:
 		estado = 1
-
 	data = {'estado': estado}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -361,23 +362,19 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 
 	# AREA BIBLIOTECA ESPOL
 	poligono = [
-		(-2.146503, -79.966256), 
-		(-2.146522, -79.966009),
-		(-2.146622, -79.965802),
-		(-2.146887, -79.965741),
-		(-2.147046, -79.965736),
-		(-2.147202, -79.965752),
-		(-2.147384, -79.965757),
-		(-2.147579, -79.965767),
-		(-2.147593, -79.965944),
-		(-2.147568, -79.966105),
-		(-2.147565, -79.966259),
-		(-2.147541, -79.966470),
-		(-2.147339, -79.966508),
-		(-2.147162, -79.966556),
-		(-2.146974, -79.966559),
-		(-2.146767, -79.966523),
-		(-2.146554, -79.966467),
+		(-2.146501, -79.966501),
+		(-2.146723, -79.966586),
+		(-2.147041, -79.966678),
+		(-2.147337, -79.966737),
+		(-2.147561, -79.966751),
+		(-2.147723, -79.966612),
+		(-2.147818, -79.966114),
+		(-2.147648, -79.965607),
+		(-2.147276, -79.965520),
+		(-2.146927, -79.965554),
+		(-2.146672, -79.965651),
+		(-2.146460, -79.965848),
+		(-2.146342, -79.966104)
 	]
 
 	x = float(latitud)
@@ -403,3 +400,19 @@ def verificar_usuario_area_parqueadero(request, usuario_id, longitud, latitud):
 	data = {'estado': en_area}
 	return HttpResponse(json.dumps(data), content_type='application/json')
 
+# def verificar_cron(request):
+	# hoy = datetime.now()
+	# hora_inicio = datetime.strptime('07:00', '%H:%M').time()
+	# hora_fin = hoy.time()
+	# reportes_dia = ReportePersona.objects.filter(fecha_creacion=hoy, hora_creacion__range=[hora_inicio, hora_fin]).order_by('hora_creacion')
+	# reportes_dia = reportes_dia.values_list('persona').annotate(num_max_reportes=Count('persona')).order_by('-num_max_reportes')
+	# usuario_id, num_reportes = reportes_dia[0]
+	
+	# #Se crea la Recompensa
+	# noticia = Noticia()
+	# noticia.tipo = Noticia.TIPO_NOTICIA_RECOMPENSA
+	# noticia.descripcion = ""
+	# noticia.usuario_id = usuario_id
+	# noticia.fecha_creacion = hoy
+	# noticia.hora_creacion = hoy.time()
+	# noticia.save()

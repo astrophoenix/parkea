@@ -83,6 +83,9 @@ class ReportePersona(models.Model):
 	fecha_creacion = models.DateField(null=True)
 	hora_creacion = models.TimeField(null=True)
 
+	def __str__(self):
+		return self.persona.nombre + ' | ' + str(self.fecha_creacion) + ' | ' + str(self.hora_creacion)
+
 class Noticia(models.Model):
 	TIPO_NOTICIA_EVENTO = 'E'
 	TIPO_NOTICIA_RECOMPENSA = 'R'

@@ -149,7 +149,7 @@ public class PrincipalActivity extends AppCompatActivity
         obtenerDatosUsuario(Global.usuario_id);
         //Carga el rating por los reportes
         obtenerRatingReportesUsuario(Global.usuario_id);
-        //Verifica si hay una recompensa ganada por reportar el último día
+        //Verifica si hay una recompensa ganada
         obtenerRecompensa(Global.usuario_id);
 
 
@@ -165,7 +165,7 @@ public class PrincipalActivity extends AppCompatActivity
         bntHistorialParqueos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment fragment = new ParqueoPersonaFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).addToBackStack(null).commit();
             }
         });
 
@@ -366,6 +366,8 @@ public class PrincipalActivity extends AppCompatActivity
     private void obtenerRecompensa(Integer usuario_id)
     {
 
+        // Verificar en el servidor una recompensa cuando el usuario se loguee entre las [07:00 - 18:00]
+        // porque es el horario del parqueo
         APIService mApiService = Controller.getInterfaceService();
         Call<RespuestaAPIServidor> mService = mApiService.obtenerNotificacionesRecompensaAPI(usuario_id);
 
@@ -382,22 +384,17 @@ public class PrincipalActivity extends AppCompatActivity
                     {
                         Toast.makeText(getApplicationContext(), "Has ganado una recompensa!", Toast.LENGTH_SHORT).show();
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
-
                         Intent principalIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
                         principalIntent.putExtra("menuFragment", "menu_recompensas");
-
                         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, principalIntent, 0);
-
                         mBuilder.setContentIntent(pendingIntent);
-
                         mBuilder.setSmallIcon(R.drawable.ic_notificacion);
                         mBuilder.setContentTitle("Premio");
                         mBuilder.setContentText("Has ganado una recompensa en Parkea!");
                         NotificationManager mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.notify(001, mBuilder.build());
                     }
-                }
-                else {
+                }else {
                     Toast.makeText(getApplicationContext(), String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -462,15 +459,6 @@ public class PrincipalActivity extends AppCompatActivity
                 super.onBackPressed();
             }
         }
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-
-
     }
 
     @Override
@@ -507,7 +495,10 @@ public class PrincipalActivity extends AppCompatActivity
             fm.popBackStack();// quita la pantalla encontrada
     }
 
-    private void verificarRegistroReporteParqueoActivo()
+    /*
+    * Consulta en el servidor si existe un registro de parqueo o ha reportado parqueos.
+    * */
+    /*private void verificarRegistroReporteParqueoActivo()
     {
         APIService mApiService = Controller.getInterfaceService();
         Call<RespuestaAPIServidor> mService = mApiService.verificarRegistroReporteParqueoActivoAPI(Global.usuario_id);
@@ -534,7 +525,7 @@ public class PrincipalActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
 
 
@@ -555,17 +546,45 @@ public class PrincipalActivity extends AppCompatActivity
             Intent inicioIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
             startActivity(inicioIntent);
             FragmentTransaction = false;
-        }if (id == R.id.nav_consular) {
-            verificarRegistroReporteParqueoActivo();
-            if (Global.flag_registro_reporte)
-            {
-                fragment = new ConsultarFragment();
-                FragmentTransaction = true;
-            }else{
-                Toast.makeText(getApplicationContext(), String.valueOf("No puede consultar, no ha registrado o reportado un parqueo."), Toast.LENGTH_SHORT).show();
-            }
+        }if (id == R.id.nav_consular) { // Consultar Parqueaderos
+            APIService mApiService = Controller.getInterfaceService();
+            Call<RespuestaAPIServidor> mService = mApiService.verificarRegistroReporteParqueoActivoAPI(Global.usuario_id);
+            mService.enqueue(new Callback<RespuestaAPIServidor>() {
+                @Override
+                public void onResponse(Call<RespuestaAPIServidor> call, Response<RespuestaAPIServidor> response) {
 
-        } else if (id == R.id.nav_registrar) {
+                    if(response.isSuccessful())
+                    {
+                        RespuestaAPIServidor r = response.body();
+                        String returnedResponse = r.estado;
+                        if(returnedResponse.trim().equals("0")){
+                            Toast.makeText(getApplicationContext(), String.valueOf("No puede consultar, no ha registrado o reportado un parqueo."), Toast.LENGTH_SHORT).show();
+                        }else {
+                            boolean FragmentTransaction = false;
+                            Fragment fragment = null;
+                            fragment = new ConsultarFragment();
+                            FragmentTransaction = true;
+
+                            if (FragmentTransaction){
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content_principal, fragment).addToBackStack(null).commit();
+                                btnAgregarPlaca.setOnClickListener(null);
+                                bntHistorialParqueos.setOnClickListener(null);
+                                spinnerPlacas.setEnabled(false);
+                                spinnerPlacas.setClickable(false);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RespuestaAPIServidor> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Conexión con el servidor no establecida.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            FragmentTransaction = false;
+        } else if (id == R.id.nav_registrar) { // Registrar Parqueo
             borrarPantallasPrevias();
             if (Global.en_area){
                 fragment = new RegistrarFragment();
@@ -573,7 +592,7 @@ public class PrincipalActivity extends AppCompatActivity
             }else{
                 Toast.makeText(getApplicationContext(), String.valueOf("No puede registrarse fuera del parqueadero"), Toast.LENGTH_SHORT).show();
             }
-        } else if (id == R.id.nav_reportar) {
+        } else if (id == R.id.nav_reportar) { // Reportar Parqueaderos
             borrarPantallasPrevias();
             if (Global.en_area){
                 fragment = new ReportarFragment();
@@ -581,28 +600,28 @@ public class PrincipalActivity extends AppCompatActivity
             }else{
                 Toast.makeText(getApplicationContext(), String.valueOf("No puede reportar fuera del parqueadero"), Toast.LENGTH_SHORT).show();
             }
-        } else if (id == R.id.nav_eventos) {
+        } else if (id == R.id.nav_eventos) { // Cargar Eventos
             borrarPantallasPrevias();
             fragment = new NoticiasFragment();
             FragmentTransaction = true;
             args.putString("tipo_noticia", "E");
             fragment.setArguments(args);
-        } else if (id == R.id.nav_encuesta) {
+        } else if (id == R.id.nav_encuesta) { // Cargar Encuesta
             borrarPantallasPrevias();
             Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("https://goo.gl/forms/1q47PkX9Jcjy5U5d2"));
             startActivity(viewIntent);
             FragmentTransaction = false;
-        } else if (id == R.id.nav_recompensa) {
+        } else if (id == R.id.nav_recompensa) { // Cargar Recompensas
             borrarPantallasPrevias();
             fragment = new NoticiasFragment();
             args.putString("tipo_noticia", "R");
             fragment.setArguments(args);
             FragmentTransaction = true;
-        } else if (id == R.id.nav_mapa_espol) {
+        } else if (id == R.id.nav_mapa_espol) { // Cargar Imagen Mapa
             borrarPantallasPrevias();
             fragment = new MapaParqueosFragment();
             FragmentTransaction = true;
-        } else if (id == R.id.nav_salir) {
+        } else if (id == R.id.nav_salir) { //  Salir de App
             FragmentTransaction = false;
             Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -666,8 +685,8 @@ public class PrincipalActivity extends AppCompatActivity
         Global.latitud = location.getLatitude();
         Global.longitud = location.getLongitude();
         verificarPuntoEnArea();
-        Log.e("onLocChan Latitud:", String.valueOf(Global.latitud));
-        Log.e("onLocChan Longitud:", String.valueOf(Global.longitud));
+        //Log.e("onLocChan Latitud:", String.valueOf(Global.latitud));
+        //Log.e("onLocChan Longitud:", String.valueOf(Global.longitud));
 
     }
 

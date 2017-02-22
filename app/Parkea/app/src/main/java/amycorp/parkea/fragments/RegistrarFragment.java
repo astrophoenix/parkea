@@ -274,9 +274,6 @@ public class RegistrarFragment extends Fragment {
             public void onResponse(Call<List<Placa>> call, Response<List<Placa>> response) {
                 if (response.isSuccessful()) {
                     List<Placa> placas = response.body();
-                    //ArrayAdapter<Placa> spinnerPlacasAdapter = new ArrayAdapter<Placa>(getApplicationContext(), android.R.layout.simple_spinner_item, placas);
-
-                    //ArrayAdapter<Parqueadero> spinnerParqueaderosAdapter = new ArrayAdapter<Parqueadero>(getApplicationContext(), android.R.layout.simple_spinner_item, parqueaderos);
                     final ArrayAdapter<Placa> spinnerPlacasAdapter = new ArrayAdapter<Placa>(thiscontext,android.R.layout.simple_spinner_item, placas){
 
                         @Override
@@ -338,15 +335,14 @@ public class RegistrarFragment extends Fragment {
                             Toast.makeText(thiscontext, "Registro Exitoso", Toast.LENGTH_SHORT).show();
                             Intent inicioIntent = new Intent(thiscontext, PrincipalActivity.class);
                             startActivity(inicioIntent);
-                        }else if(returnedResponse.trim().equals("-1")){
-                            Toast.makeText(thiscontext, "No puede registrarse ya que mantiene un parqueo ocupado", Toast.LENGTH_SHORT).show();
+                        }else if(returnedResponse.trim().equals("-1")) {
+                            Toast.makeText(thiscontext, "No puede registrarse, mantiene un parqueo ocupado", Toast.LENGTH_SHORT).show();
+                        }else if(returnedResponse.trim().equals("-2")){
+                            Toast.makeText(thiscontext, "No puede registrarse, no existen parqueos disponibles", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(thiscontext, "Error al intentar registrar parqueo, verificar conexión", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
-                        //Log.e("Error Code", String.valueOf(response.code()));
-                        //Log.e("Error Body", response.errorBody().toString());
                         Toast.makeText(thiscontext, String.valueOf(response.errorBody().toString()), Toast.LENGTH_SHORT).show();
                     }
                 }

@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'obtener_notificaciones_recompensa/(?P<usuario_id>[0-9]+)/$', views.obtener_notificaciones_recompensa),
     url(r'verificar_registro_reporte_parqueo_activo/(?P<usuario_id>[0-9]+)/$', views.verificar_registro_reporte_parqueo_activo),
     url(r'verificar_usuario_area_parqueadero/(?P<usuario_id>[0-9]+)/(?P<longitud>.+)/(?P<latitud>.+)/$', views.verificar_usuario_area_parqueadero),
+    # url(r'verificar_cron/$', views.verificar_cron)    
 ]
